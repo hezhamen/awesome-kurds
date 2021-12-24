@@ -47,7 +47,7 @@ export default function Home() {
           {theKurds.map((person) => (
             <div className={styles.card}>
               <img src={person.image} width={100} />
-              <h1>{person.name}</h1>
+              <h2>{person.name}</h2>
               {person.titles.map((title) => (
                 <p>{title}</p>
               ))}
