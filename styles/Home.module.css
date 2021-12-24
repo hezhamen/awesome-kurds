@@ -50,12 +50,13 @@
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 80%;
   margin-top: 3rem;
 }
 
 .card {
   min-width: 25%;
+  flex-grow: 1;
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
@@ -64,7 +65,6 @@
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  background: #d4d8f0;
 }
 
 .card:hover,

@@ -46,10 +46,10 @@ export default function Home() {
         <div className={styles.dealer}>
           {theKurds.map((person) => (
             <div className={styles.card}>
-              <img src={`https://unavatar.io/${person.username}`} />
+              <img src={person.image} width={100} />
               <h1>{person.name}</h1>
               {person.titles.map((title) => (
-                <h2>{title}</h2>
+                <p>{title}</p>
               ))}
             </div>
           ))}

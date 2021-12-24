@@ -56,12 +56,12 @@ function getProfilePicture(link) {
   if (/twitter.com/gi.test(link)) {
     // https://stackoverflow.com/a/9396453/7003797
     const username = link.match(
-      /https?:\/\/(www\.)?twitter\.com\/(#!\/)?@?([^\/]*)/gi
+      /https?:\/\/(www\.)?twitter\.com\/(#!\/)?@?([^\/]*)/
     )[3];
     return `https://res.cloudinary.com/mhmd-azeez/image/twitter_name/${username}.jpg`;
   } else if (/github.com/gi.test(link)) {
     const username = link.match(
-      /https?:\/\/(www\.)?github\.com\/(#!\/)?@?([^\/]*)/gi
+      /https?:\/\/(www\.)?github\.com\/(#!\/)?@?([^\/]*)/
     )[3];
     return `https://github.com/${username}.png`;
   }
