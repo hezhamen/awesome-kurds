@@ -1,11 +1,18 @@
 async function getKurds() {
-    const markdownUrl = 'https://raw.githubusercontent.com/mhmd-azeez/awesome-it-kurds/main/README.md'
-    const markdown = await (await fetch(markdownUrl)).text();
+    const markdown = await getMarkdown('https://raw.githubusercontent.com/mhmd-azeez/awesome-it-kurds/main/README.md');
+    return parse(markdown);
+}
+
+async function getMarkdown(url) {
+    let response = await fetch(url)
+    return await response.text();
+}
+
+function parse(markdown) {
     const sections = getSections(markdown);
 
     // https://stackoverflow.com/a/70326197/7003797
     const regex = /-\s*\[([^\]]+)\]\(([^)]+)\)(?::\s*(.*))?/ig
-
     const matches = [...markdown.matchAll(regex)];
 
     const kurds = matches.map((m) => {
@@ -33,7 +40,6 @@ function deduplicate(kurds) {
 
         if (existing) {
             existing.titles = [...existing.titles, ...kurd.titles];
-            console.log(existing);
         } else {
             map[kurd.link] = kurd;
         }
@@ -45,8 +51,13 @@ function deduplicate(kurds) {
 function getProfilePicture(link) {
     if ((/twitter.com/ig).test(link)) {
         // https://stackoverflow.com/a/9396453/7003797
-        const username = link.match(/https?:\/\/(www\.)?twitter\.com\/(#!\/)?@?([^\/]*)/)[3];
+        const username = link.match(/https?:\/\/(www\.)?twitter\.com\/(#!\/)?@?([^\/]*)/ig)[3];
         return `https://res.cloudinary.com/mhmd-azeez/image/twitter_name/${username}.jpg`;
+
+    } else if ((/github.com/ig).test(link)) {
+        const username = link.match(/https?:\/\/(www\.)?github\.com\/(#!\/)?@?([^\/]*)/ig)[3];
+        return `https://github.com/${username}.png`;
+
     }
 
     return null;
