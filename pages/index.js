@@ -45,11 +45,11 @@ export default function Home() {
         </div> */}
         <div className={styles.dealer}>
           {theKurds.map((person) => (
-            <div className={styles.card}>
+            <div key={person.name} className={styles.card}>
               <img src={person.image} width={100} />
               <h2>{person.name}</h2>
               {person.titles.map((title) => (
-                <p>{title}</p>
+                <p key={title}>{title}</p>
               ))}
             </div>
           ))}
