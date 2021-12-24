@@ -17,6 +17,7 @@ function parse(markdown) {
   const regex = /-\s*\[([^\]]+)\]\(([^)]+)\)(?::\s*(.*))?/gi;
   const matches = [...markdown.matchAll(regex)];
 
+<<<<<<< HEAD
   const kurds = matches.map((m) => {
     return {
       name: m[1],
@@ -28,6 +29,20 @@ function parse(markdown) {
       ],
     };
   });
+=======
+    const kurds = matches.map((m) => {
+        let profile = getProfile(m[2]);
+
+        return {
+            'name': m[1],
+            'link': m[2],
+            'tags': m[3] ? m[3].split(',').map(t => t.trim()) : [],
+            'image': profile.image,
+            'username': profile.username,
+            'titles': [lastElementOf(sections.filter(s => s.line < getLineNumber(m))).name],
+        };
+    });
+>>>>>>> 4127f663697488e89918679e561fde3a9eb541f1
 
   return deduplicate(kurds);
 }
@@ -52,21 +67,26 @@ function deduplicate(kurds) {
   return Object.values(map);
 }
 
-function getProfilePicture(link) {
-  if (/twitter.com/gi.test(link)) {
-    // https://stackoverflow.com/a/9396453/7003797
-    const username = link.match(
-      /https?:\/\/(www\.)?twitter\.com\/(#!\/)?@?([^\/]*)/
-    )[3];
-    return `https://res.cloudinary.com/mhmd-azeez/image/twitter_name/${username}.jpg`;
-  } else if (/github.com/gi.test(link)) {
-    const username = link.match(
-      /https?:\/\/(www\.)?github\.com\/(#!\/)?@?([^\/]*)/
-    )[3];
-    return `https://github.com/${username}.png`;
-  }
+function getProfile(link) {
 
-  return null;
+    let image = null;
+    let username = null;
+
+    if ((/twitter.com/ig).test(link)) {
+        // https://stackoverflow.com/a/9396453/7003797
+        username = link.match(/https?:\/\/(www\.)?twitter\.com\/(#!\/)?@?([^\/]*)/)[3];
+        image = `https://res.cloudinary.com/mhmd-azeez/image/twitter_name/${username}.jpg`;
+
+    } else if ((/github.com/ig).test(link)) {
+        username = link.match(/https?:\/\/(www\.)?github\.com\/(#!\/)?@?([^\/]*)/)[3];
+        image = `https://github.com/${username}.png`;
+
+    }
+
+    return {
+        image,
+        username
+    }
 }
 
 // https://stackoverflow.com/a/57594471/7003797
