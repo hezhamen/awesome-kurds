@@ -16,11 +16,14 @@ function parse(markdown) {
     const matches = [...markdown.matchAll(regex)];
 
     const kurds = matches.map((m) => {
+        let profile = getProfile(m[2]);
+
         return {
             'name': m[1],
             'link': m[2],
             'tags': m[3] ? m[3].split(',').map(t => t.trim()) : [],
-            'image': getProfilePicture(m[2]),
+            'image': profile.image,
+            'username': profile.username,
             'titles': [lastElementOf(sections.filter(s => s.line < getLineNumber(m))).name],
         };
     });
@@ -48,19 +51,26 @@ function deduplicate(kurds) {
     return Object.values(map);
 }
 
-function getProfilePicture(link) {
+function getProfile(link) {
+
+    let image = null;
+    let username = null;
+
     if ((/twitter.com/ig).test(link)) {
         // https://stackoverflow.com/a/9396453/7003797
-        const username = link.match(/https?:\/\/(www\.)?twitter\.com\/(#!\/)?@?([^\/]*)/)[3];
-        return `https://res.cloudinary.com/mhmd-azeez/image/twitter_name/${username}.jpg`;
+        username = link.match(/https?:\/\/(www\.)?twitter\.com\/(#!\/)?@?([^\/]*)/)[3];
+        image = `https://res.cloudinary.com/mhmd-azeez/image/twitter_name/${username}.jpg`;
 
     } else if ((/github.com/ig).test(link)) {
-        const username = link.match(/https?:\/\/(www\.)?github\.com\/(#!\/)?@?([^\/]*)/)[3];
-        return `https://github.com/${username}.png`;
+        username = link.match(/https?:\/\/(www\.)?github\.com\/(#!\/)?@?([^\/]*)/)[3];
+        image = `https://github.com/${username}.png`;
 
     }
 
-    return null;
+    return {
+        image,
+        username
+    }
 }
 
 // https://stackoverflow.com/a/57594471/7003797
