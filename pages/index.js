@@ -1,9 +1,21 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
+import { getKurds } from "./api/api";
 
 export default function Home() {
-  getKurds();
+  const [theKurds, setTheKurds] = useState([]);
+
+  useEffect(() => {
+    getKurds().then((kurds) => setTheKurds(kurds));
+  }, []);
+
+  if (theKurds.length === 0) {
+    return <div>loading</div>;
+  }
+
+  console.log(theKurds);
 
   return (
     <div className={styles.container}>
@@ -21,7 +33,7 @@ export default function Home() {
         <p className={styles.slogan}>Meet the great.</p>
       </header>
       <main className={styles.main}>
-        <div>
+        {/* <div>
           <button
             className={`${styles.tagSelector} + ${styles.activeSelector}`}
           >
@@ -30,13 +42,17 @@ export default function Home() {
           <button className={styles.tagSelector}>ReactJs</button>
           <button className={styles.tagSelector}>VueJs</button>
           <button className={styles.tagSelector}>AngularJs</button>
-        </div>
+        </div> */}
         <div className={styles.dealer}>
-          <div className={styles.card}></div>
-          <div className={styles.card}></div>
-          <div className={styles.card}></div>
-          <div className={styles.card}></div>
-          <div className={styles.card}></div>
+          {theKurds.map((person) => (
+            <div className={styles.card}>
+              <img src={`https://unavatar.io/${person.username}`} />
+              <h1>{person.name}</h1>
+              {person.titles.map((title) => (
+                <h2>{title}</h2>
+              ))}
+            </div>
+          ))}
         </div>
       </main>
 
