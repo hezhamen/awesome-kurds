@@ -1,11 +1,18 @@
 async function getKurds() {
-    const markdownUrl = 'https://raw.githubusercontent.com/mhmd-azeez/awesome-it-kurds/main/README.md'
-    const markdown = await (await fetch(markdownUrl)).text();
+    const markdown = await getMarkdown('https://raw.githubusercontent.com/mhmd-azeez/awesome-it-kurds/main/README.md');
+    return parse(markdown);
+}
+
+async function getMarkdown(url) {
+    let response = await fetch(url)
+    return await response.text();
+}
+
+function parse(markdown) {
     const sections = getSections(markdown);
 
     // https://stackoverflow.com/a/70326197/7003797
     const regex = /-\s*\[([^\]]+)\]\(([^)]+)\)(?::\s*(.*))?/ig
-
     const matches = [...markdown.matchAll(regex)];
 
     const kurds = matches.map((m) => {
@@ -33,7 +40,6 @@ function deduplicate(kurds) {
 
         if (existing) {
             existing.titles = [...existing.titles, ...kurd.titles];
-            console.log(existing);
         } else {
             map[kurd.link] = kurd;
         }
