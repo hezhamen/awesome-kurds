@@ -8,6 +8,8 @@ import {
   FacebookOutlined,
   GithubOutlined,
   TwitterOutlined,
+  LinkedinOutlined,
+  LinkOutlined
 } from "@ant-design/icons";
 
 const { Meta } = Card;
@@ -32,12 +34,14 @@ const KurdCard = (props) => {
       }
       actions={[
         <a key="social" target="_blank" href={person.link} rel="noreferrer">
-          {person.link.includes("twitter") && <TwitterOutlined key="twitter" />}
-          {person.link.includes("behance") && <BehanceOutlined key="behance" />}
-          {person.link.includes("facebook") && (
-            <FacebookOutlined key="facebook" />
-          )}
-          {person.link.includes("github") && <GithubOutlined key="github" />}
+          {
+            person.link.includes("twitter") ? <TwitterOutlined key="twitter" /> :
+              person.link.includes("behance") ? <BehanceOutlined key="behance" /> :
+                person.link.includes("facebook") ? <FacebookOutlined key="facebook" /> :
+                  person.link.includes("github") ? <GithubOutlined key="github" /> :
+                    person.link.includes("linkedin") ? <LinkedinOutlined key="linkedin" /> :
+                      <LinkOutlined key="link" />
+          }
         </a>,
       ]}
     >
