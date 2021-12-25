@@ -104,3 +104,14 @@
   display: flex;
   flex-direction: row;
 }
+
+@media screen and (max-width: 600px) {
+  .info {
+    flex-direction: column;
+    padding: 2rem 0;
+  }
+  .search {
+    margin: 0 2rem;
+    margin-bottom: 1rem;
+  }
+}
