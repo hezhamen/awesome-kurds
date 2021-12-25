@@ -9,7 +9,7 @@ import KurdCard from "../components/KurdCard";
 import { getAllTags, getKurds } from "./api/api";
 
 // antd
-import { Button, Card, Statistic } from "antd";
+import { Card, Statistic } from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -20,7 +20,7 @@ import Dropdown from "../components/Dropdown";
 export default function Home() {
   const [theKurds, setTheKurds] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeTag, setActiveTag] = useState("all");
+  const [activeTag, setActiveTag] = useState("");
 
   useEffect(() => {
     getKurds().then((kurds) => setTheKurds(kurds));
@@ -29,6 +29,12 @@ export default function Home() {
   if (theKurds.length === 0) {
     return <Loading />;
   }
+
+  console.log(
+    theKurds.filter(
+      (kurd) => kurd.tags.includes(activeTag) || activeTag === "All"
+    )
+  );
 
   return (
     <div className={styles.container}>
@@ -62,23 +68,6 @@ export default function Home() {
               getAllTags={getAllTags}
               theKurds={theKurds}
             />
-            {/* <div className={styles.tagsSelector}>
-              <Button
-                type={activeTag == "" ? "primary" : "default"}
-                onClick={() => setActiveTag("")}
-              >
-                All
-              </Button>
-              {getAllTags(theKurds).map((tag) => (
-                <Button
-                  key={tag}
-                  type={activeTag === tag ? "primary" : "default"}
-                  onClick={() => setActiveTag(tag)}
-                >
-                  {tag}
-                </Button>
-              ))}
-            </div> */}
           </div>
           <Card>
             <Statistic
@@ -90,11 +79,12 @@ export default function Home() {
         </div>
         <div className={styles.dealer}>
           {theKurds
-            .filter((kurd) =>
-              kurd.tags
-                .toString()
-                .toLowerCase()
-                .includes(activeTag.toLowerCase() || "all")
+            .filter(
+              (kurd) =>
+                kurd.tags
+                  .toString()
+                  .toLowerCase()
+                  .includes(activeTag.toLowerCase()) || activeTag === "All"
             )
             .filter((kurd) =>
               kurd.name.toLowerCase().includes(searchTerm.toLowerCase())

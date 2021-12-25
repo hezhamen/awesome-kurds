@@ -8,10 +8,6 @@ function Dropdown({ theKurds, setActiveTag, getAllTags }) {
     setActiveTag(value);
   }
 
-  function onSearch(val) {
-    console.log("search:", val);
-  }
-
   return (
     <div>
       <Select
@@ -19,12 +15,14 @@ function Dropdown({ theKurds, setActiveTag, getAllTags }) {
         placeholder="Select a tag..."
         optionFilterProp="children"
         onChange={onChange}
-        onSearch={onSearch}
         filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
         defaultValue="All"
       >
+        <Option value="All" key="All">
+          All
+        </Option>
         {getAllTags(theKurds).map((tag) => (
           <Option key={tag} value={tag}>
             {tag}
