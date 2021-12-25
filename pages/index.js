@@ -9,7 +9,7 @@ import KurdCard from "../components/KurdCard";
 import { getAllTags, getKurds } from "./api/api";
 
 // antd
-import { Card, Input, Statistic } from "antd";
+import { Alert, Button, Card, Input, Statistic } from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -77,6 +77,22 @@ export default function Home() {
             />
           </Card>
         </div>
+        <Alert
+          message="Want to show up here?"
+          description="You can add your profile here by commiting to our repo."
+          type="info"
+          action={
+            <a
+              href="https://github.com/DevelopersTree/awesome-kurds"
+              rel="noreferrer"
+            >
+              <Button size="small" type="primary">
+                Go to Repository
+              </Button>
+            </a>
+          }
+          showIcon
+        />
         <div className={styles.dealer}>
           {theKurds
             .filter(
