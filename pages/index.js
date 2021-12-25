@@ -30,12 +30,6 @@ export default function Home() {
     return <Loading />;
   }
 
-  console.log(
-    theKurds.filter(
-      (kurd) => kurd.tags.includes(activeTag) || activeTag === "All"
-    )
-  );
-
   return (
     <div className={styles.container}>
       <Head>
