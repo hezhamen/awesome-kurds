@@ -8,6 +8,8 @@ import {
   FacebookOutlined,
   GithubOutlined,
   TwitterOutlined,
+  LinkedinOutlined,
+  LinkOutlined,
 } from "@ant-design/icons";
 
 const { Meta } = Card;
@@ -38,6 +40,14 @@ const KurdCard = (props) => {
             <FacebookOutlined key="facebook" />
           )}
           {person.link.includes("github") && <GithubOutlined key="github" />}
+          {person.link.includes("linkedin") && (
+            <LinkedinOutlined key="linkedin" />
+          )}
+          {!person.link.includes("twitter") &&
+            !person.link.includes("behance") &&
+            !person.link.includes("facebook") &&
+            !person.link.includes("github") &&
+            !person.link.includes("linkedin") && <LinkOutlined key="link" />}
         </a>,
       ]}
     >
