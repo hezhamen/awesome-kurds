@@ -66,7 +66,12 @@ export default function Home() {
                 />
               }
               actions={[
-                <a target="_blank" href={person.link}>
+                <a
+                  key="twitter"
+                  target="_blank"
+                  href={person.link}
+                  rel="noreferrer"
+                >
                   <TwitterOutlined key="twitter" />
                 </a>,
               ]}
@@ -81,7 +86,7 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        <a href="https://devs.krd" target="_blank">
+        <a href="https://devs.krd" target="_blank" rel="noreferrer">
           Powered by Devs.Krd
         </a>
       </footer>
