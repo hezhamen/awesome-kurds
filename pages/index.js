@@ -14,9 +14,11 @@ import { Card, Statistic } from "antd";
 // styles
 import styles from "../styles/Home.module.css";
 import Loading from "../components/Loading";
+import Search from "antd/lib/input/Search";
 
 export default function Home() {
   const [theKurds, setTheKurds] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getKurds().then((kurds) => setTheKurds(kurds));
@@ -43,6 +45,13 @@ export default function Home() {
       </header>
       <main className={styles.main}>
         <div className={styles.info}>
+          <Search
+            placeholder="Search by tags..."
+            allowClear
+            enterButton="Search"
+            size="large"
+            onSearch={(e) => setSearchTerm(e)}
+          />
           <Card>
             <Statistic
               title="Total People"
@@ -52,9 +61,16 @@ export default function Home() {
           </Card>
         </div>
         <div className={styles.dealer}>
-          {theKurds.map((person) => (
-            <KurdCard person={person} />
-          ))}
+          {theKurds
+            .filter((kurd) =>
+              kurd.tags
+                .toString()
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+            )
+            .map((person) => (
+              <KurdCard person={person} />
+            ))}
         </div>
       </main>
 
