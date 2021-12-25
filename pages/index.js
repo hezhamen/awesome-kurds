@@ -6,10 +6,10 @@ import Head from "next/head";
 import KurdCard from "../components/KurdCard";
 
 //api
-import { getKurds } from "./api/api";
+import { getAllTags, getKurds } from "./api/api";
 
 // antd
-import { Card, Statistic } from "antd";
+import { Button, Card, Statistic } from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -19,6 +19,7 @@ import Search from "antd/lib/input/Search";
 export default function Home() {
   const [theKurds, setTheKurds] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeTag, setActiveTag] = useState("");
 
   useEffect(() => {
     getKurds().then((kurds) => setTheKurds(kurds));
@@ -45,13 +46,33 @@ export default function Home() {
       </header>
       <main className={styles.main}>
         <div className={styles.info}>
-          <Search
-            placeholder="Search by tags..."
-            allowClear
-            enterButton="Search"
-            size="large"
-            onSearch={(e) => setSearchTerm(e)}
-          />
+          <div>
+            <Search
+              placeholder="Search by name..."
+              allowClear
+              enterButton="Search"
+              size="large"
+              onSearch={(e) => setSearchTerm(e)}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <div className={styles.tagsSelector}>
+              <Button
+                type={activeTag == "" ? "primary" : "default"}
+                onClick={() => setActiveTag("")}
+              >
+                All
+              </Button>
+              {getAllTags(theKurds).map((tag) => (
+                <Button
+                  key={tag}
+                  type={activeTag === tag ? "primary" : "default"}
+                  onClick={() => setActiveTag(tag)}
+                >
+                  {tag}
+                </Button>
+              ))}
+            </div>
+          </div>
           <Card>
             <Statistic
               title="Total People"
@@ -66,7 +87,10 @@ export default function Home() {
               kurd.tags
                 .toString()
                 .toLowerCase()
-                .includes(searchTerm.toLowerCase())
+                .includes(activeTag.toLowerCase())
+            )
+            .filter((kurd) =>
+              kurd.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .map((person) => (
               <KurdCard key={person.name} person={person} />

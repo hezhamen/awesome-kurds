@@ -36,20 +36,6 @@
   align-items: center;
 }
 
-.tagSelector {
-  margin-right: 0.25rem;
-  border-radius: 0;
-  background-color: transparent;
-  padding: 0.5rem;
-  border: 1px solid #eebbc3;
-  color: #eebbc3;
-}
-
-.activeSelector {
-  background-color: #eebbc3;
-  color: #232946;
-}
-
 .dealer {
   display: flex;
   flex-direction: row;
@@ -93,4 +79,23 @@
   flex-wrap: wrap;
   gap: 0.5rem 0.1rem;
   margin-top: 1rem;
+}
+
+.info {
+  padding: 0 10rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tagsSelector {
+  margin-top: 1rem;
+  max-width: 50%;
+}
+
+.tagsSelector > * {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
 }
