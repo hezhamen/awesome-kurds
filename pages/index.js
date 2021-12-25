@@ -54,6 +54,7 @@ export default function Home() {
         <div className={styles.dealer}>
           {theKurds.map((person) => (
             <Card
+              key={person.name}
               cover={
                 <img
                   width="150"
@@ -72,7 +73,7 @@ export default function Home() {
             >
               <Meta title={person.name} />
               {person.titles.map((title) => (
-                <Meta description={title} />
+                <Meta key={title} description={title} />
               ))}
             </Card>
           ))}
