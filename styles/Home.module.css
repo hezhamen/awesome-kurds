@@ -99,3 +99,8 @@
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
 }
+
+.search {
+  display: flex;
+  flex-direction: row;
+}

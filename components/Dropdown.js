@@ -19,6 +19,7 @@ function Dropdown({ theKurds, setActiveTag, getAllTags }) {
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
         defaultValue="All"
+        size="large"
       >
         <Option value="All" key="All">
           All

@@ -9,7 +9,7 @@ import KurdCard from "../components/KurdCard";
 import { getAllTags, getKurds } from "./api/api";
 
 // antd
-import { Card, Statistic } from "antd";
+import { Card, Input, Statistic } from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -53,7 +53,13 @@ export default function Home() {
       </header>
       <main className={styles.main}>
         <div className={styles.info}>
-          <div>
+          <div className={styles.search}>
+            <Dropdown
+              activeTag={activeTag}
+              setActiveTag={setActiveTag}
+              getAllTags={getAllTags}
+              theKurds={theKurds}
+            />
             <Search
               placeholder="Search by name..."
               allowClear
@@ -61,12 +67,6 @@ export default function Home() {
               size="large"
               onSearch={(e) => setSearchTerm(e)}
               onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Dropdown
-              activeTag={activeTag}
-              setActiveTag={setActiveTag}
-              getAllTags={getAllTags}
-              theKurds={theKurds}
             />
           </div>
           <Card>
