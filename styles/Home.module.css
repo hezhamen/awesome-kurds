@@ -77,3 +77,12 @@
   justify-content: center;
   align-items: center;
 }
+
+.card {
+  margin: 1rem;
+}
+
+.avatar {
+  min-width: 15rem;
+  aspect-ratio: 1;
+}

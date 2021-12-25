@@ -8,12 +8,3 @@ body {
   font-family: "Poppins", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
-
-.ant-card-bordered {
-  margin: 1rem;
-}
-
-.ant-card-cover img {
-  min-width: 15rem;
-  aspect-ratio: 1;
-}

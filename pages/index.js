@@ -54,9 +54,11 @@ export default function Home() {
         <div className={styles.dealer}>
           {theKurds.map((person) => (
             <Card
+              className={styles.card}
               key={person.name}
               cover={
                 <img
+                  className={styles.avatar}
                   width="150"
                   src={
                     person.image === null
