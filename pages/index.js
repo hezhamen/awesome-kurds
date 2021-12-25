@@ -46,7 +46,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.info}>
           <Search
-            placeholder="Search by tags..."
+            placeholder="Search by name or tag..."
             allowClear
             enterButton="Search"
             size="large"
@@ -55,18 +55,29 @@ export default function Home() {
           <Card>
             <Statistic
               title="Total People"
-              value={theKurds.length}
+              value={
+                theKurds.filter(
+                  (kurd) =>
+                    kurd.tags
+                      .toString()
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase()) ||
+                    kurd.name.toLowerCase().includes(searchTerm.toLowerCase())
+                ).length
+              }
               suffix="Kurds"
             />
           </Card>
         </div>
         <div className={styles.dealer}>
           {theKurds
-            .filter((kurd) =>
-              kurd.tags
-                .toString()
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase())
+            .filter(
+              (kurd) =>
+                kurd.tags
+                  .toString()
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase()) ||
+                kurd.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .map((person) => (
               <KurdCard key={person.name} person={person} />
