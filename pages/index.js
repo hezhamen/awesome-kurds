@@ -1,9 +1,14 @@
-import { Avatar, Badge, Card, Spin, Statistic } from "antd";
+import { Card, Spin, Statistic } from "antd";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import { getKurds } from "./api/api";
-import { Loading3QuartersOutlined, TwitterOutlined } from "@ant-design/icons";
+import {
+  BehanceOutlined,
+  FacebookOutlined,
+  Loading3QuartersOutlined,
+  TwitterOutlined,
+} from "@ant-design/icons";
 
 const { Meta } = Card;
 
@@ -23,8 +28,6 @@ export default function Home() {
       </div>
     );
   }
-
-  console.log(theKurds);
 
   return (
     <div className={styles.container}>
@@ -69,12 +72,20 @@ export default function Home() {
               }
               actions={[
                 <a
-                  key="twitter"
+                  key="social"
                   target="_blank"
                   href={person.link}
                   rel="noreferrer"
                 >
-                  <TwitterOutlined key="twitter" />
+                  {person.link.includes("twitter") && (
+                    <TwitterOutlined key="twitter" />
+                  )}
+                  {person.link.includes("behance") && (
+                    <BehanceOutlined key="behance" />
+                  )}
+                  {person.link.includes("facebook") && (
+                    <FacebookOutlined key="facebook" />
+                  )}
                 </a>,
               ]}
             >
