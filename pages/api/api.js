@@ -1,6 +1,6 @@
 export async function getKurds() {
   const markdown = await getMarkdown(
-    "https://raw.githubusercontent.com/mhmd-azeez/awesome-it-kurds/main/README.md"
+    "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
   );
   return parse(markdown);
 }
