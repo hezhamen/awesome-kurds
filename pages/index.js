@@ -69,7 +69,7 @@ export default function Home() {
                 .includes(searchTerm.toLowerCase())
             )
             .map((person) => (
-              <KurdCard person={person} />
+              <KurdCard key={person.name} person={person} />
             ))}
         </div>
       </main>
