@@ -15,11 +15,12 @@ import { Button, Card, Statistic } from "antd";
 import styles from "../styles/Home.module.css";
 import Loading from "../components/Loading";
 import Search from "antd/lib/input/Search";
+import Dropdown from "../components/Dropdown";
 
 export default function Home() {
   const [theKurds, setTheKurds] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeTag, setActiveTag] = useState("");
+  const [activeTag, setActiveTag] = useState("all");
 
   useEffect(() => {
     getKurds().then((kurds) => setTheKurds(kurds));
@@ -55,7 +56,13 @@ export default function Home() {
               onSearch={(e) => setSearchTerm(e)}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <div className={styles.tagsSelector}>
+            <Dropdown
+              activeTag={activeTag}
+              setActiveTag={setActiveTag}
+              getAllTags={getAllTags}
+              theKurds={theKurds}
+            />
+            {/* <div className={styles.tagsSelector}>
               <Button
                 type={activeTag == "" ? "primary" : "default"}
                 onClick={() => setActiveTag("")}
@@ -71,7 +78,7 @@ export default function Home() {
                   {tag}
                 </Button>
               ))}
-            </div>
+            </div> */}
           </div>
           <Card>
             <Statistic
@@ -87,7 +94,7 @@ export default function Home() {
               kurd.tags
                 .toString()
                 .toLowerCase()
-                .includes(activeTag.toLowerCase())
+                .includes(activeTag.toLowerCase() || "all")
             )
             .filter((kurd) =>
               kurd.name.toLowerCase().includes(searchTerm.toLowerCase())
