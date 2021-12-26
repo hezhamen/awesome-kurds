@@ -15,7 +15,7 @@ const { Meta } = Card;
 
 export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
   return (
-    <a href={kurd.link} target="_blank">
+    <a href={kurd.link} target="_blank" rel="noreferrer">
       <Card
         className={styles.card}
         hoverable
