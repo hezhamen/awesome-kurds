@@ -21,7 +21,7 @@ export class AwesomeKurds {
 
   constructor(readme: string) {
     this.lines = readme.split("\n");
-    this.topics = Array.from(readme.matchAll(/\n## (.+)\n/g)).map((v) => v[1]); // taken from @hezhamin, and modified
+    this.topics = Array.from(readme.matchAll(/\n## (.+)\n/g)).map((v) => v[1]); // taken from @hezhamen, and modified
 
     for (const topic of this.topics) {
       for (const kurd of this.getKurdsInTopic(topic)) {
