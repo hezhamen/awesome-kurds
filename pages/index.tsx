@@ -7,22 +7,8 @@ import _ from "lodash";
 // components
 import KurdCard from "../components/KurdCard";
 
-//api
-import { getAllNames, getAllTags, getKurds } from "./api/api";
-
 // antd
-import {
-  Alert,
-  AutoComplete,
-  Button,
-  Card,
-  Col,
-  Input,
-  Layout,
-  Row,
-  Space,
-  Statistic,
-} from "antd";
+import { Button, Col, Layout, Row, Space } from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -31,8 +17,12 @@ import Search from "antd/lib/input/Search";
 import Dropdown from "../components/Dropdown";
 import { Avatar } from "antd";
 
+//
+import { AwesomeKurds } from "../kurds";
+import { getPhoto } from "../utilities";
+
 export default function Home() {
-  const [theKurds, setTheKurds] = useState([]);
+  const [awesomeKurds, setAwesomeKurds] = useState<AwesomeKurds>();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTag, setActiveTag] = useState("");
   const options = {
@@ -51,10 +41,18 @@ export default function Home() {
   };
 
   useEffect(() => {
-    getKurds().then((kurds) => setTheKurds(kurds));
+    (async () => {
+      const readme = await (
+        await fetch(
+          "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
+        )
+      ).text();
+
+      setAwesomeKurds(new AwesomeKurds(readme));
+    })();
   }, []);
 
-  if (theKurds.length === 0) {
+  if (typeof awesomeKurds === "undefined") {
     return <Loading />;
   }
 
@@ -72,17 +70,13 @@ export default function Home() {
       </Head>
       <section className={styles.hero}>
         <h1 className={styles.title}>Awesome Kurds</h1>
-        <p className={styles.slogan}>Meet {theKurds.length} amazing Kurds.</p>
+        <p className={styles.slogan}>
+          Meet {awesomeKurds.kurds.length} awesome Kurds.
+        </p>
         <div className={styles.CTA}>
           <BubbleUI options={options} className="myBubbleUI">
-            {_.shuffle(theKurds).map((person) => {
-              return (
-                <Avatar
-                  className="child"
-                  src={person.image}
-                  key={`person-${person.name}`}
-                />
-              );
+            {_.shuffle(awesomeKurds.kurds).map((k, i) => {
+              return <Avatar key={i} src={getPhoto(k)} className="child" />;
             })}
           </BubbleUI>
           <a
@@ -113,48 +107,41 @@ export default function Home() {
           }}
         >
           <Row justify="center">
-            <Space wrap="true">
+            <Space wrap>
               <Search
-                placeholder="Search by name..."
+                placeholder="Search..."
                 allowClear
                 enterButton="Search"
                 size="large"
                 onSearch={(e) => setSearchTerm(e)}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Dropdown
-                activeTag={activeTag}
-                setActiveTag={setActiveTag}
-                getAllTags={getAllTags}
-                theKurds={theKurds}
-              />
+              <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
             </Space>
           </Row>
         </Header>
         <Row gutter={16}>
-          {theKurds
-            .filter(
-              (kurd) =>
-                kurd.tags
-                  .toString()
-                  .toLowerCase()
-                  .includes(activeTag.toLowerCase()) || activeTag === "All"
+          {awesomeKurds
+            .searchForKurd(searchTerm)
+            .filter((k) =>
+              activeTag && activeTag != "All"
+                ? k.tags.includes(activeTag)
+                : true
             )
-            .filter((kurd) =>
-              kurd.name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-            .map((person) => (
-              <Col key={person.name} xs={24} sm={12} lg={8} xl={6}>
-                <KurdCard key={person.name} person={person} />
+            .map((k, i) => (
+              <Col key={k.name} xs={24} sm={12} lg={8} xl={6}>
+                <KurdCard key={i} kurd={k} />
               </Col>
             ))}
         </Row>
       </Layout>
 
       <footer className={styles.footer}>
+        Powered by{" "}
         <a href="https://devs.krd" target="_blank" rel="noreferrer">
-          Powered by Devs.Krd
+          devs.krd
         </a>
+        .
       </footer>
     </div>
   );
