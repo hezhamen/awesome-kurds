@@ -163,9 +163,9 @@ export default function Home() {
 
       <Footer align="center">
         Powered by{" "}
-        <a href="https://devs.krd" target="_blank" rel="noreferrer">
+        <Link href="https://devs.krd" target="_blank" rel="noreferrer">
           devs.krd
-        </a>
+        </Link>
         .
       </Footer>
     </>

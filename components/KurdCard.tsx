@@ -11,16 +11,26 @@ import {
 import styles from "../styles/Home.module.css";
 import { KurdWithTopics } from "../kurds";
 import { getPhoto } from "../utilities";
+import { Typography } from "antd";
 
 const { Meta } = Card;
 
 export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
+  const { Link } = Typography;
+
   return (
     <Card
       className={styles.card}
-      cover={<img className={styles.avatar} width="150" src={getPhoto(kurd)} alt={kurd.name} />}
+      cover={
+        <img
+          className={styles.avatar}
+          width="150"
+          src={getPhoto(kurd)}
+          alt={kurd.name}
+        />
+      }
       actions={[
-        <a key="social" target="_blank" href={kurd.link} rel="noreferrer">
+        <Link key="social" target="_blank" href={kurd.link} rel="noreferrer">
           {kurd.link.includes("twitter") ? (
             <TwitterOutlined key="twitter" />
           ) : kurd.link.includes("behance") ? (
@@ -34,7 +44,7 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
           ) : (
             <LinkOutlined key="link" />
           )}
-        </a>,
+        </Link>,
       ]}
     >
       <Meta title={kurd.name} />
