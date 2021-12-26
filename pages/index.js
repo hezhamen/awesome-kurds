@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import BubbleUI from "react-bubble-ui";
 import "react-bubble-ui/dist/index.css";
-import _ from 'lodash';
+import _ from "lodash";
 // components
 import KurdCard from "../components/KurdCard";
 
@@ -11,7 +11,18 @@ import KurdCard from "../components/KurdCard";
 import { getAllNames, getAllTags, getKurds } from "./api/api";
 
 // antd
-import { Alert, AutoComplete, Button, Card, Input, Statistic } from "antd";
+import {
+  Alert,
+  AutoComplete,
+  Button,
+  Card,
+  Col,
+  Input,
+  Layout,
+  Row,
+  Space,
+  Statistic,
+} from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -25,19 +36,19 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTag, setActiveTag] = useState("");
   const options = {
-		size: 200,
-		minSize: 40,
-		gutter: 8,
-		provideProps: true,
-		numCols: 8,
-		fringeWidth: 400,
-		yRadius: 130,
-		xRadius: 220,
-		cornerRadius: 50,
-		showGuides: false,
-		compact: true,
-		gravitation: 5
-	}
+    size: 200,
+    minSize: 40,
+    gutter: 8,
+    provideProps: true,
+    numCols: 8,
+    fringeWidth: 400,
+    yRadius: 130,
+    xRadius: 220,
+    cornerRadius: 50,
+    showGuides: false,
+    compact: true,
+    gravitation: 5,
+  };
 
   useEffect(() => {
     getKurds().then((kurds) => setTheKurds(kurds));
@@ -46,6 +57,8 @@ export default function Home() {
   if (theKurds.length === 0) {
     return <Loading />;
   }
+
+  const { Header, Footer, Sider, Content } = Layout;
 
   return (
     <div className={styles.container}>
@@ -61,13 +74,17 @@ export default function Home() {
         <h1 className={styles.title}>Awesome Kurds</h1>
         <p className={styles.slogan}>Meet {theKurds.length} amazing Kurds.</p>
         <div className={styles.CTA}>
-        <BubbleUI options={options} className="myBubbleUI">
-          {_.shuffle(theKurds).map((person)=>{
-            return (
-              <Avatar className="child" src={person.image} key={`person-${person.name}`} />
-            )
-          })}
-        </BubbleUI>
+          <BubbleUI options={options} className="myBubbleUI">
+            {_.shuffle(theKurds).map((person) => {
+              return (
+                <Avatar
+                  className="child"
+                  src={person.image}
+                  key={`person-${person.name}`}
+                />
+              );
+            })}
+          </BubbleUI>
           <a
             href="https://github.com/DevelopersTree/awesome-kurds"
             rel="noreferrer"
@@ -83,24 +100,38 @@ export default function Home() {
           </a>
         </div>
       </section>
-      <main className={styles.main}>
-        <div className={styles.search}>
-          <Dropdown
-            activeTag={activeTag}
-            setActiveTag={setActiveTag}
-            getAllTags={getAllTags}
-            theKurds={theKurds}
-          />
-          <Search
-            placeholder="Search by name..."
-            allowClear
-            enterButton="Search"
-            size="large"
-            onSearch={(e) => setSearchTerm(e)}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <div className={styles.dealer}>
+      <Layout
+        style={{
+          background: "#fff",
+        }}
+      >
+        <Header
+          style={{
+            lineHeight: "1.5",
+            background: "#fff",
+            marginBottom: "1rem",
+          }}
+        >
+          <Row justify="center">
+            <Space wrap="true">
+              <Search
+                placeholder="Search by name..."
+                allowClear
+                enterButton="Search"
+                size="large"
+                onSearch={(e) => setSearchTerm(e)}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Dropdown
+                activeTag={activeTag}
+                setActiveTag={setActiveTag}
+                getAllTags={getAllTags}
+                theKurds={theKurds}
+              />
+            </Space>
+          </Row>
+        </Header>
+        <Row gutter={16}>
           {theKurds
             .filter(
               (kurd) =>
@@ -113,10 +144,12 @@ export default function Home() {
               kurd.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .map((person) => (
-              <KurdCard key={person.name} person={person} />
+              <Col key={person.name} xs={24} sm={12} lg={8} xl={6}>
+                <KurdCard key={person.name} person={person} />
+              </Col>
             ))}
-        </div>
-      </main>
+        </Row>
+      </Layout>
 
       <footer className={styles.footer}>
         <a href="https://devs.krd" target="_blank" rel="noreferrer">
