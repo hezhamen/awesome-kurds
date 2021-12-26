@@ -6,10 +6,10 @@ import Head from "next/head";
 import KurdCard from "../components/KurdCard";
 
 //api
-import { getAllTags, getKurds } from "./api/api";
+import { getAllNames, getAllTags, getKurds } from "./api/api";
 
 // antd
-import { Alert, Button, Card, Input, Statistic } from "antd";
+import { Alert, AutoComplete, Button, Card, Input, Statistic } from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -40,53 +40,42 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <header className={styles.header}>
+      <section className={styles.hero}>
         <h1 className={styles.title}>Awesome Kurds</h1>
-        <p className={styles.slogan}>Meet the great.</p>
-      </header>
-      <main className={styles.main}>
-        <div className={styles.info}>
-          <div className={styles.search}>
-            <Dropdown
-              activeTag={activeTag}
-              setActiveTag={setActiveTag}
-              getAllTags={getAllTags}
-              theKurds={theKurds}
-            />
-            <Search
-              placeholder="Search by name..."
-              allowClear
-              enterButton="Search"
-              size="large"
-              onSearch={(e) => setSearchTerm(e)}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <Card>
-            <Statistic
-              title="Total People"
-              value={theKurds.length}
-              suffix="Kurds"
-            />
-          </Card>
+        <p className={styles.slogan}>Meet {theKurds.length} amazing Kurds.</p>
+        <div className={styles.CTA}>
+          <a
+            href="https://github.com/DevelopersTree/awesome-kurds"
+            rel="noreferrer"
+          >
+            <Button type="primary" size="large">
+              Join the list
+            </Button>
+          </a>
+          <a href="https://github.com/AramRafeq/awesome-kurds" rel="noreferrer">
+            <Button type="default" size="large">
+              Contribute
+            </Button>
+          </a>
         </div>
-        <Alert
-          message="Want to show up here?"
-          description="You can add your profile here by commiting to our repo."
-          type="info"
-          action={
-            <a
-              href="https://github.com/DevelopersTree/awesome-kurds"
-              rel="noreferrer"
-            >
-              <Button size="small" type="primary">
-                Go to Repository
-              </Button>
-            </a>
-          }
-          showIcon
-        />
+      </section>
+      <main className={styles.main}>
+        <div className={styles.search}>
+          <Dropdown
+            activeTag={activeTag}
+            setActiveTag={setActiveTag}
+            getAllTags={getAllTags}
+            theKurds={theKurds}
+          />
+          <Search
+            placeholder="Search by name..."
+            allowClear
+            enterButton="Search"
+            size="large"
+            onSearch={(e) => setSearchTerm(e)}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         <div className={styles.dealer}>
           {theKurds
             .filter(
