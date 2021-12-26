@@ -3,15 +3,12 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import BubbleUI from "react-bubble-ui";
 import "react-bubble-ui/dist/index.css";
-import _ from 'lodash';
+import _ from "lodash";
 // components
 import KurdCard from "../components/KurdCard";
 
-//api
-import { getAllNames, getAllTags, getKurds } from "./api/api";
-
 // antd
-import { Alert, AutoComplete, Button, Card, Input, Statistic } from "antd";
+import { Button } from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -20,30 +17,42 @@ import Search from "antd/lib/input/Search";
 import Dropdown from "../components/Dropdown";
 import { Avatar } from "antd";
 
+//
+import { AwesomeKurds } from "../kurds";
+import { getPhoto } from "../utilities";
+
 export default function Home() {
-  const [theKurds, setTheKurds] = useState([]);
+  const [awesomeKurds, setAwesomeKurds] = useState<AwesomeKurds>();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTag, setActiveTag] = useState("");
   const options = {
-		size: 200,
-		minSize: 40,
-		gutter: 8,
-		provideProps: true,
-		numCols: 8,
-		fringeWidth: 400,
-		yRadius: 130,
-		xRadius: 220,
-		cornerRadius: 50,
-		showGuides: false,
-		compact: true,
-		gravitation: 5
-	}
+    size: 200,
+    minSize: 40,
+    gutter: 8,
+    provideProps: true,
+    numCols: 8,
+    fringeWidth: 400,
+    yRadius: 130,
+    xRadius: 220,
+    cornerRadius: 50,
+    showGuides: false,
+    compact: true,
+    gravitation: 5,
+  };
 
   useEffect(() => {
-    getKurds().then((kurds) => setTheKurds(kurds));
+    (async () => {
+      const readme = await (
+        await fetch(
+          "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
+        )
+      ).text();
+
+      setAwesomeKurds(new AwesomeKurds(readme));
+    })();
   }, []);
 
-  if (theKurds.length === 0) {
+  if (typeof awesomeKurds === "undefined") {
     return <Loading />;
   }
 
@@ -59,15 +68,15 @@ export default function Home() {
       </Head>
       <section className={styles.hero}>
         <h1 className={styles.title}>Awesome Kurds</h1>
-        <p className={styles.slogan}>Meet {theKurds.length} amazing Kurds.</p>
+        <p className={styles.slogan}>
+          Meet {awesomeKurds.kurds.length} awesome Kurds.
+        </p>
         <div className={styles.CTA}>
-        <BubbleUI options={options} className="myBubbleUI">
-          {_.shuffle(theKurds).map((person)=>{
-            return (
-              <Avatar className="child" src={person.image} key={`person-${person.name}`} />
-            )
-          })}
-        </BubbleUI>
+          <BubbleUI options={options} className="myBubbleUI">
+            {_.shuffle(awesomeKurds.kurds).map((k, i) => {
+              return <Avatar key={i} src={getPhoto(k)} className="child" />;
+            })}
+          </BubbleUI>
           <a
             href="https://github.com/DevelopersTree/awesome-kurds"
             rel="noreferrer"
@@ -85,14 +94,9 @@ export default function Home() {
       </section>
       <main className={styles.main}>
         <div className={styles.search}>
-          <Dropdown
-            activeTag={activeTag}
-            setActiveTag={setActiveTag}
-            getAllTags={getAllTags}
-            theKurds={theKurds}
-          />
+          <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
           <Search
-            placeholder="Search by name..."
+            placeholder="Search..."
             allowClear
             enterButton="Search"
             size="large"
@@ -101,27 +105,25 @@ export default function Home() {
           />
         </div>
         <div className={styles.dealer}>
-          {theKurds
-            .filter(
-              (kurd) =>
-                kurd.tags
-                  .toString()
-                  .toLowerCase()
-                  .includes(activeTag.toLowerCase()) || activeTag === "All"
+          {awesomeKurds
+            .searchForKurd(searchTerm)
+            .filter((k) =>
+              activeTag && activeTag != "All"
+                ? k.tags.includes(activeTag)
+                : true
             )
-            .filter((kurd) =>
-              kurd.name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-            .map((person) => (
-              <KurdCard key={person.name} person={person} />
+            .map((k, i) => (
+              <KurdCard key={i} kurd={k} />
             ))}
         </div>
       </main>
 
       <footer className={styles.footer}>
+        Powered by{" "}
         <a href="https://devs.krd" target="_blank" rel="noreferrer">
-          Powered by Devs.Krd
+          devs.krd
         </a>
+        .
       </footer>
     </div>
   );
