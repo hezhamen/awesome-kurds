@@ -39,7 +39,9 @@ export class AwesomeKurds {
 
     for (const kurd of this.kurds) {
       for (const tag of kurd.tags) {
-        this.tags.push(tag);
+        if (!this.tags.includes(tag)) {
+          this.tags.push(tag);
+        }
       }
     }
   }
