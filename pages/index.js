@@ -68,8 +68,7 @@ export default function Home() {
             )
           })}
         </BubbleUI>
-
-          {/* <a
+          <a
             href="https://github.com/DevelopersTree/awesome-kurds"
             rel="noreferrer"
           >
@@ -81,7 +80,7 @@ export default function Home() {
             <Button type="default" size="large">
               Contribute
             </Button>
-          </a> */}
+          </a>
         </div>
       </section>
       <main className={styles.main}>
