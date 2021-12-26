@@ -1,12 +1,18 @@
 import { Select } from "antd";
-import React from "react";
 import styles from "../styles/Home.module.css";
+import { KurdWithTopics } from "../kurds";
 
-function Dropdown({ theKurds, setActiveTag, getAllTags }) {
+export default function Dropdown({
+  tags,
+  setActiveTag,
+}: {
+  tags: string[];
+  setActiveTag: any;
+}) {
   const { Option } = Select;
 
-  function onChange(value) {
-    setActiveTag(value);
+  function onChange(v: any) {
+    setActiveTag(v);
   }
 
   return (
@@ -23,17 +29,13 @@ function Dropdown({ theKurds, setActiveTag, getAllTags }) {
         size="large"
         className={styles.tagSelector}
       >
-        <Option value="All" key="All">
-          All
-        </Option>
-        {getAllTags(theKurds).map((tag) => (
-          <Option key={tag} value={tag}>
-            {tag}
+        <Option value="All">All</Option>
+        {tags.map((t, i) => (
+          <Option key={i} value={t}>
+            {t}
           </Option>
         ))}
       </Select>
     </div>
   );
 }
-
-export default Dropdown;
