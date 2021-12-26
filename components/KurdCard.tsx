@@ -24,7 +24,6 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
             src={getPhoto(kurd)}
             alt={kurd.name}
             preview={false}
-            placeholder={true}
           />
         }
         actions={[
