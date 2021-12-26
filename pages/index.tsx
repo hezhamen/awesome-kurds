@@ -161,7 +161,11 @@ export default function Home() {
         </Row>
       </Layout>
 
-      <Footer align="center">
+      <Footer
+        style={{
+          textAlign: "center",
+        }}
+      >
         Powered by{" "}
         <Link href="https://devs.krd" target="_blank" rel="noreferrer">
           devs.krd
