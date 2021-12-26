@@ -9,7 +9,7 @@ export function getPhoto(kurd: Kurd) {
       /https?:\/\/(www\.)?twitter\.com\/(#!\/)?@?([^\/]*)/
     )[3];
 
-    const image = `https://res.cloudinary.com/mhmd-azeez/image/twitter_name/${username}.jpg`;
+    image = `https://res.cloudinary.com/mhmd-azeez/image/twitter_name/${username}.jpg`;
   } else if (/github.com/gi.test(kurd.link)) {
     const username = kurd.link.match(
       /https?:\/\/(www\.)?github\.com\/(#!\/)?@?([^\/]*)/
