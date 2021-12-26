@@ -59,6 +59,7 @@ function deduplicate(kurds) {
 
     if (existing) {
       existing.titles = [...existing.titles, ...kurd.titles];
+      existing.tags = [...existing.tags, ...kurd.tags];
     } else {
       map[kurd.link] = kurd;
     }
