@@ -1,5 +1,6 @@
 import { Select } from "antd";
 import React from "react";
+import styles from "../styles/Home.module.css";
 
 function Dropdown({ theKurds, setActiveTag, getAllTags }) {
   const { Option } = Select;
@@ -20,6 +21,7 @@ function Dropdown({ theKurds, setActiveTag, getAllTags }) {
         }
         defaultValue="All"
         size="large"
+        className={styles.tagSelector}
       >
         <Option value="All" key="All">
           All
