@@ -13,14 +13,14 @@
 
 .title {
   margin-bottom: 0;
-
+  background: white;
   font-size: 5rem;
   line-height: 6rem;
 }
 
 .slogan {
   margin-top: 0;
-
+  background: white;
   font-size: 2rem;
   color: rgb(102, 102, 102);
 }
@@ -98,7 +98,6 @@
   justify-content: center;
   align-items: center;
 }
-
 @media screen and (max-width: 600px) {
   .title {
     font-size: 2rem;

@@ -1,7 +1,9 @@
 // react & next
 import { useEffect, useState } from "react";
 import Head from "next/head";
-
+import BubbleUI from "react-bubble-ui";
+import "react-bubble-ui/dist/index.css";
+import _ from 'lodash';
 // components
 import KurdCard from "../components/KurdCard";
 
@@ -16,11 +18,26 @@ import styles from "../styles/Home.module.css";
 import Loading from "../components/Loading";
 import Search from "antd/lib/input/Search";
 import Dropdown from "../components/Dropdown";
+import { Avatar } from "antd";
 
 export default function Home() {
   const [theKurds, setTheKurds] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTag, setActiveTag] = useState("");
+  const options = {
+		size: 200,
+		minSize: 40,
+		gutter: 8,
+		provideProps: true,
+		numCols: 8,
+		fringeWidth: 400,
+		yRadius: 130,
+		xRadius: 220,
+		cornerRadius: 50,
+		showGuides: false,
+		compact: true,
+		gravitation: 5
+	}
 
   useEffect(() => {
     getKurds().then((kurds) => setTheKurds(kurds));
@@ -44,7 +61,15 @@ export default function Home() {
         <h1 className={styles.title}>Awesome Kurds</h1>
         <p className={styles.slogan}>Meet {theKurds.length} amazing Kurds.</p>
         <div className={styles.CTA}>
-          <a
+        <BubbleUI options={options} className="myBubbleUI">
+          {_.shuffle(theKurds).map((person)=>{
+            return (
+              <Avatar className="child" src={person.image} key={`person-${person.name}`} />
+            )
+          })}
+        </BubbleUI>
+
+          {/* <a
             href="https://github.com/DevelopersTree/awesome-kurds"
             rel="noreferrer"
           >
@@ -56,7 +81,7 @@ export default function Home() {
             <Button type="default" size="large">
               Contribute
             </Button>
-          </a>
+          </a> */}
         </div>
       </section>
       <main className={styles.main}>
