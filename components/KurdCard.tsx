@@ -18,7 +18,6 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
     <a href={kurd.link} target="_blank" rel="noreferrer">
       <Card
         className={styles.card}
-        hoverable
         cover={
           <Image
             className={styles.avatar}
