@@ -9,9 +9,9 @@ import KurdCard from "../components/KurdCard";
 
 // antd
 import { Button, Col, Layout, Row, Space } from "antd";
+import { Typography } from "antd";
 
 // styles
-import styles from "../styles/Home.module.css";
 import Loading from "../components/Loading";
 import Search from "antd/lib/input/Search";
 import Dropdown from "../components/Dropdown";
@@ -56,10 +56,11 @@ export default function Home() {
     return <Loading />;
   }
 
-  const { Header, Footer, Sider, Content } = Layout;
+  const { Header, Footer, Content } = Layout;
+  const { Title, Text, Link } = Typography;
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Awesome Kurds</title>
         <meta
@@ -68,32 +69,56 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className={styles.hero}>
-        <h1 className={styles.title}>Awesome Kurds</h1>
-        <p className={styles.slogan}>
-          Meet {awesomeKurds.kurds.length} awesome Kurds.
-        </p>
-        <div className={styles.CTA}>
+      <Layout
+        style={{
+          backgroundColor: "transparent",
+          height: "100vh",
+        }}
+      >
+        <Content
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Title>Awesome Kurds</Title>
+          <Text type="secondary">
+            Meet {awesomeKurds.kurds.length} amazing Kurds.
+          </Text>
+
           <BubbleUI options={options} className="myBubbleUI">
             {_.shuffle(awesomeKurds.kurds).map((k, i) => {
               return <Avatar key={i} src={getPhoto(k)} className="child" />;
             })}
           </BubbleUI>
-          <a
-            href="https://github.com/DevelopersTree/awesome-kurds"
-            rel="noreferrer"
-          >
-            <Button type="primary" size="large">
-              Join the list
-            </Button>
-          </a>
-          <a href="https://github.com/AramRafeq/awesome-kurds" rel="noreferrer">
-            <Button type="default" size="large">
-              Contribute
-            </Button>
-          </a>
-        </div>
-      </section>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Link
+                href="https://github.com/DevelopersTree/awesome-kurds"
+                rel="noreferrer"
+              >
+                <Button type="primary" size="large">
+                  Join the list
+                </Button>
+              </Link>
+            </Col>
+
+            <Col span={12}>
+              <Link
+                href="https://github.com/AramRafeq/awesome-kurds"
+                rel="noreferrer"
+              >
+                <Button type="default" size="large">
+                  Contribute
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+        </Content>
+      </Layout>
+
       <Layout
         style={{
           background: "#fff",
@@ -136,13 +161,13 @@ export default function Home() {
         </Row>
       </Layout>
 
-      <footer className={styles.footer}>
+      <Footer align="center">
         Powered by{" "}
         <a href="https://devs.krd" target="_blank" rel="noreferrer">
           devs.krd
         </a>
         .
-      </footer>
-    </div>
+      </Footer>
+    </>
   );
 }
