@@ -27,16 +27,16 @@ export default function Home() {
   const [activeTag, setActiveTag] = useState("");
   const options = {
     size: 200,
-    minSize: 40,
+    minSize: 25,
     gutter: 8,
     provideProps: true,
     numCols: 8,
-    fringeWidth: 400,
+    fringeWidth: 200,
     yRadius: 130,
     xRadius: 220,
     cornerRadius: 50,
     showGuides: false,
-    compact: true,
+    compact: false,
     gravitation: 5,
   };
 
@@ -90,7 +90,7 @@ export default function Home() {
 
           <BubbleUI options={options} className="myBubbleUI">
             {_.shuffle(awesomeKurds.kurds).map((k, i) => {
-              return <Avatar key={i} src={getPhoto(k)} className="child" />;
+              return <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />;
             })}
           </BubbleUI>
           <Row gutter={16}>

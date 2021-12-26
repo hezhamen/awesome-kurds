@@ -4,6 +4,25 @@
   place-items: center;
 }
 
+.hero {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  place-items: center;
+}
+
+.title {
+  margin-bottom: 0;
+  font-size: 5rem;
+  line-height: 6rem;
+}
+
+.slogan {
+  margin-top: 0;
+  font-size: 2rem;
+  color: rgb(102, 102, 102);
+}
+
 .CTA > * {
   margin: 0.5rem;
 }
