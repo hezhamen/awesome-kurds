@@ -6,6 +6,7 @@ import "react-bubble-ui/dist/index.css";
 import _ from "lodash";
 // components
 import KurdCard from "../components/KurdCard";
+import Footer from "../components/Footer";
 
 // antd
 import { Button, Col, Layout, Row, Space } from "antd";
@@ -56,7 +57,7 @@ export default function Home() {
     return <Loading />;
   }
 
-  const { Header, Footer, Content } = Layout;
+  const { Header, Content } = Layout;
   const { Title, Text, Link } = Typography;
 
   return (
@@ -85,12 +86,14 @@ export default function Home() {
         >
           <Title>Awesome Kurds</Title>
           <Text type="secondary">
-            Meet {awesomeKurds.kurds.length} amazing Kurds.
+            Meet {awesomeKurds.kurds.length} awesome Kurds.
           </Text>
 
           <BubbleUI options={options} className="myBubbleUI">
             {_.shuffle(awesomeKurds.kurds).map((k, i) => {
-              return <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />;
+              return (
+                <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />
+              );
             })}
           </BubbleUI>
           <Row gutter={16}>
@@ -104,7 +107,6 @@ export default function Home() {
                 </Button>
               </Link>
             </Col>
-
             <Col span={12}>
               <Link
                 href="https://github.com/AramRafeq/awesome-kurds"
@@ -118,7 +120,6 @@ export default function Home() {
           </Row>
         </Content>
       </Layout>
-
       <Layout
         style={{
           background: "#fff",
@@ -160,18 +161,7 @@ export default function Home() {
             ))}
         </Row>
       </Layout>
-
-      <Footer
-        style={{
-          textAlign: "center",
-        }}
-      >
-        Powered by{" "}
-        <Link href="https://devs.krd" target="_blank" rel="noreferrer">
-          devs.krd
-        </Link>
-        .
-      </Footer>
+      <Footer />
     </>
   );
 }
