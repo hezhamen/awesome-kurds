@@ -113,6 +113,10 @@
     font-size: 1rem;
   }
 
+  .dealer {
+    grid-template-columns: auto;
+  }
+
   .tagSelector {
     width: 4rem;
   }
