@@ -17,6 +17,7 @@ import Loading from "../components/Loading";
 import Search from "antd/lib/input/Search";
 import Dropdown from "../components/Dropdown";
 import { Avatar } from "antd";
+import styles from "../styles/Home.module.css";
 
 //
 import { AwesomeKurds } from "../kurds";
@@ -84,8 +85,8 @@ export default function Home() {
             alignItems: "center",
           }}
         >
-          <Title>Awesome Kurds</Title>
-          <Text type="secondary">
+          <Title className={styles.title}>Awesome Kurds</Title>
+          <Text className={styles.slogan}>
             Meet {awesomeKurds.kurds.length} awesome Kurds.
           </Text>
 
