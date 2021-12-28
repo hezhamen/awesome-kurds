@@ -147,7 +147,13 @@ export default function Home() {
             </Space>
           </Row>
         </Header>
-        <Row gutter={16}>
+        <Row
+          gutter={16}
+          style={{
+            margin: 'auto',
+            maxWidth: "90%",
+          }}
+        >
           {awesomeKurds
             .searchForKurd(searchTerm)
             .filter((k) =>
