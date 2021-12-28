@@ -27,19 +27,11 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
               alt={kurd.name}
               layout="fill"
               objectFit="fill"
-              height={250}
-              width={250}
             />
           </div>
         }
         actions={[
-          <a
-            key="social"
-            tabIndex={-1}
-            target="_blank"
-            href={kurd.link}
-            rel="noreferrer"
-          >
+          <>
             {kurd.link.includes("twitter") ? (
               <TwitterOutlined key="twitter" />
             ) : kurd.link.includes("behance") ? (
@@ -53,7 +45,7 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
             ) : (
               <LinkOutlined key="link" />
             )}
-          </a>,
+          </>,
         ]}
       >
         <Meta title={kurd.name} />

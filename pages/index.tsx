@@ -54,7 +54,7 @@ export default function Home({ readme }: Props) {
     () =>
       awesomeKurds
         ?.searchForKurd(debouncedSearchTerm)
-        .filter((k) =>
+        .filter(k =>
           activeTag && activeTag != "All" ? k.tags.includes(activeTag) : true
         ),
     [activeTag, awesomeKurds, debouncedSearchTerm]
@@ -63,13 +63,6 @@ export default function Home({ readme }: Props) {
   useEffect(() => {
     setAwesomeKurds(new AwesomeKurds(readme));
   }, [readme]);
-
-  // useEffect(() => {
-  //   if (awesomeKurds) {
-  //     const shuffledAwesomeKurds = _.shuffle(awesomeKurds?.kurds);
-  //     // setShuffledAwesomeKurds(shuffledAwesomeKurds);
-  //   }
-  // }, [awesomeKurds]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -170,8 +163,8 @@ export default function Home({ readme }: Props) {
             allowClear
             enterButton="Search"
             size="large"
-            onSearch={(value) => setSearchTerm(value)}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onSearch={value => setSearchTerm(value)}
+            onChange={e => setSearchTerm(e.target.value)}
             suffix={
               <kbd>
                 <span className="keyboard-child">CTRL</span>
