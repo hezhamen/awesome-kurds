@@ -25,6 +25,7 @@ export default function Home() {
   const [awesomeKurds, setAwesomeKurds] = useState<AwesomeKurds>();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTag, setActiveTag] = useState("");
+  const [shuffledAwesomeKurds, setShuffledAwesomeKurds] = useState([]);
   const options = {
     size: 200,
     minSize: 25,
@@ -33,7 +34,7 @@ export default function Home() {
     numCols: 8,
     fringeWidth: 200,
     yRadius: 130,
-    xRadius: 220,
+    xRadius: 500,
     cornerRadius: 50,
     showGuides: false,
     compact: false,
@@ -51,6 +52,13 @@ export default function Home() {
       setAwesomeKurds(new AwesomeKurds(readme));
     })();
   }, []);
+
+  useEffect(() => {
+    if (awesomeKurds) {
+      const shuffledAwesomeKurds = _.shuffle(awesomeKurds?.kurds);
+      setShuffledAwesomeKurds(shuffledAwesomeKurds);
+    }
+  }, [awesomeKurds]);
 
   if (typeof awesomeKurds === "undefined") {
     return <Loading />;
@@ -73,8 +81,10 @@ export default function Home() {
         </p>
         <div className={styles.CTA}>
           <BubbleUI options={options} className="myBubbleUI">
-            {_.shuffle(awesomeKurds.kurds).map((k, i) => {
-              return <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />;
+            {shuffledAwesomeKurds.map((k, i) => {
+              return (
+                <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />
+              );
             })}
           </BubbleUI>
           <a
