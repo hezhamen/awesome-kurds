@@ -20,8 +20,11 @@ import { Avatar } from "antd";
 //
 import { AwesomeKurds } from "../kurds";
 import { getPhoto } from "../utilities";
+type Props = {
+  readme: string;
+};
 
-export default function Home() {
+export default function Home({ readme }: Props) {
   const [awesomeKurds, setAwesomeKurds] = useState<AwesomeKurds>();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTag, setActiveTag] = useState("");
@@ -41,16 +44,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    (async () => {
-      const readme = await (
-        await fetch(
-          "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
-        )
-      ).text();
-
-      setAwesomeKurds(new AwesomeKurds(readme));
-    })();
-  }, []);
+    setAwesomeKurds(new AwesomeKurds(readme));
+  }, [readme]);
 
   if (typeof awesomeKurds === "undefined") {
     return <Loading />;
@@ -61,10 +56,10 @@ export default function Home() {
       <Head>
         <title>Awesome Kurds</title>
         <meta
-          name="description"
-          content="A list of cool kurds working in the IT industry to follow and meet! The list is in alphabetical order. Feel free to send a PR and add your name!"
+          name='description'
+          content='A list of cool kurds working in the IT industry to follow and meet! The list is in alphabetical order. Feel free to send a PR and add your name!'
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <section className={styles.hero}>
         <h1 className={styles.title}>Awesome Kurds</h1>
@@ -72,21 +67,23 @@ export default function Home() {
           Meet {awesomeKurds.kurds.length} awesome Kurds.
         </p>
         <div className={styles.CTA}>
-          <BubbleUI options={options} className="myBubbleUI">
+          <BubbleUI options={options} className='myBubbleUI'>
             {_.shuffle(awesomeKurds.kurds).map((k, i) => {
-              return <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />;
+              return (
+                <Avatar key={`dev-${i}`} src={getPhoto(k)} className='child' />
+              );
             })}
           </BubbleUI>
           <a
-            href="https://github.com/DevelopersTree/awesome-kurds"
-            rel="noreferrer"
+            href='https://github.com/DevelopersTree/awesome-kurds'
+            rel='noreferrer'
           >
-            <Button type="primary" size="large">
+            <Button type='primary' size='large'>
               Join the list
             </Button>
           </a>
-          <a href="https://github.com/AramRafeq/awesome-kurds" rel="noreferrer">
-            <Button type="default" size="large">
+          <a href='https://github.com/AramRafeq/awesome-kurds' rel='noreferrer'>
+            <Button type='default' size='large'>
               Contribute
             </Button>
           </a>
@@ -96,10 +93,10 @@ export default function Home() {
         <div className={styles.search}>
           <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
           <Search
-            placeholder="Search..."
+            placeholder='Search...'
             allowClear
-            enterButton="Search"
-            size="large"
+            enterButton='Search'
+            size='large'
             onSearch={(e) => setSearchTerm(e)}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -120,7 +117,7 @@ export default function Home() {
 
       <footer className={styles.footer}>
         Powered by{" "}
-        <a href="https://devs.krd" target="_blank" rel="noreferrer">
+        <a href='https://devs.krd' target='_blank' rel='noreferrer'>
           devs.krd
         </a>
         .
@@ -128,3 +125,19 @@ export default function Home() {
     </div>
   );
 }
+
+export const getStaticProps = async () => {
+  const res = await fetch(
+    "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
+  );
+  const readme = await res.text();
+
+  if (!readme) {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: { readme },
+  };
+};
