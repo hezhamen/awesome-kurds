@@ -1,5 +1,5 @@
 // react & next
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Head from "next/head";
 import BubbleUI from "react-bubble-ui";
 import "react-bubble-ui/dist/index.css";
@@ -9,6 +9,7 @@ import KurdCard from "../components/KurdCard";
 
 // antd
 import { Layout, Button } from "antd";
+import type { Input } from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -17,43 +18,76 @@ import Search from "antd/lib/input/Search";
 import Dropdown from "../components/Dropdown";
 import { Avatar } from "antd";
 
-//
 import { AwesomeKurds } from "../kurds";
 import { getPhoto } from "../utilities";
 type Props = {
   readme: string;
 };
 
+const BUBBLE_UI_OPTIONS = {
+  size: 200,
+  minSize: 25,
+  gutter: 20,
+  provideProps: true,
+  numCols: 8,
+  fringeWidth: 200,
+  yRadius: 130,
+  xRadius: 220,
+  cornerRadius: 50,
+  showGuides: false,
+  compact: false,
+  gravitation: 5,
+};
+
 export default function Home({ readme }: Props) {
   const [awesomeKurds, setAwesomeKurds] = useState<AwesomeKurds>();
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [activeTag, setActiveTag] = useState("");
-  const [shuffledAwesomeKurds, setShuffledAwesomeKurds] = useState([]);
-  const options = {
-    size: 200,
-    minSize: 25,
-    gutter: 8,
-    provideProps: true,
-    numCols: 8,
-    fringeWidth: 200,
-    yRadius: 130,
-    xRadius: 500,
-    cornerRadius: 50,
-    showGuides: false,
-    compact: false,
-    gravitation: 5,
-  };
+  const searchInputRef = useRef<Input | null>(null);
+  const shuffledAwesomeKurds = useMemo(
+    () => (awesomeKurds?.kurds.length > 0 ? _.shuffle(awesomeKurds.kurds) : []),
+    [awesomeKurds?.kurds]
+  );
+
+  const filteredAwesomeKurds = useMemo(
+    () =>
+      awesomeKurds
+        ?.searchForKurd(debouncedSearchTerm)
+        .filter(k =>
+          activeTag && activeTag != "All" ? k.tags.includes(activeTag) : true
+        ),
+    [activeTag, awesomeKurds, debouncedSearchTerm]
+  );
 
   useEffect(() => {
     setAwesomeKurds(new AwesomeKurds(readme));
   }, [readme]);
 
   useEffect(() => {
-    if (awesomeKurds) {
-      const shuffledAwesomeKurds = _.shuffle(awesomeKurds?.kurds);
-      setShuffledAwesomeKurds(shuffledAwesomeKurds);
-    }
-  }, [awesomeKurds]);
+    const handler = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "/" && searchInputRef.current) {
+        searchInputRef.current.focus();
+      }
+    };
+
+    document.addEventListener("keyup", handler);
+
+    return () => {
+      document.removeEventListener("keyup", handler);
+    };
+  }, []);
+
+  useEffect(() => {
+    const timeoutHandle = setTimeout(
+      () => setDebouncedSearchTerm(searchTerm),
+      200
+    );
+
+    return () => {
+      clearTimeout(timeoutHandle);
+    };
+  }, [searchTerm]);
 
   if (typeof awesomeKurds === "undefined") {
     return <Loading />;
@@ -89,7 +123,7 @@ export default function Home({ readme }: Props) {
             Meet {awesomeKurds.kurds.length} awesome Kurds.
           </p>
           <div className={styles.CTA}>
-            <BubbleUI options={options} className="myBubbleUI">
+            <BubbleUI options={BUBBLE_UI_OPTIONS} className="myBubbleUI">
               {shuffledAwesomeKurds.map((k, i) => {
                 return (
                   <Avatar
@@ -124,34 +158,34 @@ export default function Home({ readme }: Props) {
         <div className={styles.search}>
           <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
           <Search
+            ref={searchInputRef}
             placeholder="Search..."
             allowClear
             enterButton="Search"
             size="large"
-            onSearch={(e) => setSearchTerm(e)}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onSearch={value => setSearchTerm(value)}
+            onChange={e => setSearchTerm(e.target.value)}
+            suffix={
+              <kbd>
+                <span className="keyboard-child">CTRL</span>
+                <span className="keyboard-child">/</span>
+              </kbd>
+            }
           />
         </div>
         <div className={styles.dealer}>
-          {awesomeKurds
-            .searchForKurd(searchTerm)
-            .filter((k) =>
-              activeTag && activeTag != "All"
-                ? k.tags.includes(activeTag)
-                : true
-            )
-            .map((k, i) => (
-              <KurdCard key={i} kurd={k} />
-            ))}
+          {filteredAwesomeKurds.map((k, i) => (
+            <KurdCard key={i} kurd={k} />
+          ))}
         </div>
       </main>
 
       <footer className={styles.footer}>
-        Powered by{" "}
+        <span>Powered by</span>
         <a href="https://devs.krd" target="_blank" rel="noreferrer">
           devs.krd
         </a>
-        .
+        <span>.</span>
       </footer>
     </div>
   );

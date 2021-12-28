@@ -21,16 +21,17 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
       <Card
         className={styles.card}
         cover={
-          <Image
-            className={styles.avatar}
-            src={getPhoto(kurd)}
-            alt={kurd.name}
-            height={250}
-            width={250}
-          />
+          <div className={styles.avatar}>
+            <Image
+              src={getPhoto(kurd)}
+              alt={kurd.name}
+              layout="fill"
+              objectFit="fill"
+            />
+          </div>
         }
         actions={[
-          <a key="social" target="_blank" href={kurd.link} rel="noreferrer">
+          <>
             {kurd.link.includes("twitter") ? (
               <TwitterOutlined key="twitter" />
             ) : kurd.link.includes("behance") ? (
@@ -44,7 +45,7 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
             ) : (
               <LinkOutlined key="link" />
             )}
-          </a>,
+          </>,
         ]}
       >
         <Meta title={kurd.name} />

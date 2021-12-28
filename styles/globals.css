@@ -31,3 +31,21 @@ body {
 .ant-tag {
   margin: 0.5rem 0.5rem 0 0;
 }
+
+.ant-input-suffix > kbd{
+  display: flex;
+  gap: 4px;
+}
+
+.keyboard-child{
+  font-family: monospace;
+  font-size: 14px;
+  background-color: #1890ff44;
+  text-align: center;
+  padding-inline: 6px;
+  border-radius: 6px;
+}
+
+.ant-input-suffix > .ant-input-clear-icon{
+  display: none;
+}
