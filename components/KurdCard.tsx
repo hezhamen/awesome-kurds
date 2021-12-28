@@ -1,4 +1,5 @@
-import { Card, Tag, Image } from "antd";
+import { Card, Tag } from "antd";
+import Image from "next/image";
 import {
   BehanceOutlined,
   FacebookOutlined,
@@ -11,6 +12,7 @@ import {
 import styles from "../styles/Home.module.css";
 import { KurdWithTopics } from "../kurds";
 import { getPhoto } from "../utilities";
+
 const { Meta } = Card;
 
 export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
@@ -19,12 +21,16 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
       <Card
         className={styles.card}
         cover={
-          <Image
-            className={styles.avatar}
-            src={getPhoto(kurd)}
-            alt={kurd.name}
-            preview={false}
-          />
+          <div className={styles.avatar}>
+            <Image
+              src={getPhoto(kurd)}
+              alt={kurd.name}
+              layout="fill"
+              objectFit="fill"
+              height={250}
+              width={250}
+            />
+          </div>
         }
         actions={[
           <a
@@ -57,7 +63,7 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
         ))}
 
         {kurd.tags.length > 0 && (
-          <div className={styles.tags}>
+          <div>
             {kurd.tags.map((t, i) => (
               <Tag key={i} color="blue">
                 {t}

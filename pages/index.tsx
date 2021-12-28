@@ -8,7 +8,7 @@ import _ from "lodash";
 import KurdCard from "../components/KurdCard";
 
 // antd
-import { Button } from "antd";
+import { Layout, Button } from "antd";
 import type { Input } from "antd";
 
 // styles
@@ -20,6 +20,9 @@ import { Avatar } from "antd";
 
 import { AwesomeKurds } from "../kurds";
 import { getPhoto } from "../utilities";
+type Props = {
+  readme: string;
+};
 
 const BUBBLE_UI_OPTIONS = {
   size: 200,
@@ -36,7 +39,7 @@ const BUBBLE_UI_OPTIONS = {
   gravitation: 5,
 };
 
-export default function Home() {
+export default function Home({ readme }: Props) {
   const [awesomeKurds, setAwesomeKurds] = useState<AwesomeKurds>();
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
@@ -58,16 +61,15 @@ export default function Home() {
   );
 
   useEffect(() => {
-    (async () => {
-      const readme = await (
-        await fetch(
-          "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
-        )
-      ).text();
+    setAwesomeKurds(new AwesomeKurds(readme));
+  }, [readme]);
 
-      setAwesomeKurds(new AwesomeKurds(readme));
-    })();
-  }, []);
+  // useEffect(() => {
+  //   if (awesomeKurds) {
+  //     const shuffledAwesomeKurds = _.shuffle(awesomeKurds?.kurds);
+  //     // setShuffledAwesomeKurds(shuffledAwesomeKurds);
+  //   }
+  // }, [awesomeKurds]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -108,34 +110,57 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className={styles.hero}>
-        <h1 className={styles.title}>Awesome Kurds</h1>
-        <p className={styles.slogan}>
-          Meet {awesomeKurds.kurds.length} awesome Kurds.
-        </p>
-        <div className={styles.CTA}>
-          <BubbleUI options={BUBBLE_UI_OPTIONS} className="myBubbleUI">
-            {shuffledAwesomeKurds.map((k, i) => {
-              return (
-                <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />
-              );
-            })}
-          </BubbleUI>
-          <a
-            href="https://github.com/DevelopersTree/awesome-kurds"
-            rel="noreferrer"
-          >
-            <Button type="primary" size="large">
-              Join the list
-            </Button>
-          </a>
-          <a href="https://github.com/AramRafeq/awesome-kurds" rel="noreferrer">
-            <Button type="default" size="large">
-              Contribute
-            </Button>
-          </a>
-        </div>
-      </section>
+
+      <Layout
+        style={{
+          backgroundColor: "transparent",
+          height: "100vh",
+        }}
+      >
+        <Layout.Content
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h1 className={styles.title}>Awesome Kurds</h1>
+          <p className={styles.slogan}>
+            Meet {awesomeKurds.kurds.length} awesome Kurds.
+          </p>
+          <div className={styles.CTA}>
+            <BubbleUI options={BUBBLE_UI_OPTIONS} className="myBubbleUI">
+              {shuffledAwesomeKurds.map((k, i) => {
+                return (
+                  <Avatar
+                    key={`dev-${i}`}
+                    src={getPhoto(k)}
+                    className="child"
+                  />
+                );
+              })}
+            </BubbleUI>
+            <a
+              href="https://github.com/DevelopersTree/awesome-kurds"
+              rel="noreferrer"
+            >
+              <Button type="primary" size="large">
+                Join the list
+              </Button>
+            </a>
+            <a
+              href="https://github.com/AramRafeq/awesome-kurds"
+              rel="noreferrer"
+            >
+              <Button type="default" size="large">
+                Contribute
+              </Button>
+            </a>
+          </div>
+        </Layout.Content>
+      </Layout>
+
       <main className={styles.main}>
         <div className={styles.search}>
           <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
@@ -172,3 +197,19 @@ export default function Home() {
     </div>
   );
 }
+
+export const getStaticProps = async () => {
+  const res = await fetch(
+    "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
+  );
+  const readme = await res.text();
+
+  if (!readme) {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: { readme },
+  };
+};

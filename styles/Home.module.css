@@ -45,9 +45,8 @@
 .dealer {
   margin: 2rem 0;
 
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
 
   max-width: 90%;
 }
@@ -70,8 +69,11 @@ a:focus > .card {
 }
 
 .avatar {
-  min-width: 18rem;
+  position: relative;
   aspect-ratio: 1;
+  width: 100%;
+  min-height: 250px;
+  max-height: 400px;
 }
 
 .tags {
@@ -114,6 +116,10 @@ a:focus > .card {
 
   .slogan {
     font-size: 1rem;
+  }
+
+  .dealer {
+    grid-template-columns: auto;
   }
 
   .tagSelector {

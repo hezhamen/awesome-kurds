@@ -1,6 +1,5 @@
 import { Select } from "antd";
 import styles from "../styles/Home.module.css";
-import { KurdWithTopics } from "../kurds";
 
 export default function Dropdown({
   tags,
