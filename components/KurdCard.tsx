@@ -16,7 +16,7 @@ const { Meta } = Card;
 
 export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
   return (
-    <a href={kurd.link} target='_blank' rel='noreferrer'>
+    <a href={kurd.link} target="_blank" rel="noreferrer">
       <Card
         className={styles.card}
         cover={
@@ -29,19 +29,19 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
           />
         }
         actions={[
-          <a key='social' target='_blank' href={kurd.link} rel='noreferrer'>
+          <a key="social" target="_blank" href={kurd.link} rel="noreferrer">
             {kurd.link.includes("twitter") ? (
-              <TwitterOutlined key='twitter' />
+              <TwitterOutlined key="twitter" />
             ) : kurd.link.includes("behance") ? (
-              <BehanceOutlined key='behance' />
+              <BehanceOutlined key="behance" />
             ) : kurd.link.includes("facebook") ? (
-              <FacebookOutlined key='facebook' />
+              <FacebookOutlined key="facebook" />
             ) : kurd.link.includes("github") ? (
-              <GithubOutlined key='github' />
+              <GithubOutlined key="github" />
             ) : kurd.link.includes("linkedin") ? (
-              <LinkedinOutlined key='linkedin' />
+              <LinkedinOutlined key="linkedin" />
             ) : (
-              <LinkOutlined key='link' />
+              <LinkOutlined key="link" />
             )}
           </a>,
         ]}
@@ -55,7 +55,7 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
         {kurd.tags.length > 0 && (
           <div className={styles.tags}>
             {kurd.tags.map((t, i) => (
-              <Tag key={i} color='blue'>
+              <Tag key={i} color="blue">
                 {t}
               </Tag>
             ))}

@@ -56,10 +56,10 @@ export default function Home({ readme }: Props) {
       <Head>
         <title>Awesome Kurds</title>
         <meta
-          name='description'
-          content='A list of cool kurds working in the IT industry to follow and meet! The list is in alphabetical order. Feel free to send a PR and add your name!'
+          name="description"
+          content="A list of cool kurds working in the IT industry to follow and meet! The list is in alphabetical order. Feel free to send a PR and add your name!"
         />
-        <link rel='icon' href='/favicon.ico' />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className={styles.hero}>
         <h1 className={styles.title}>Awesome Kurds</h1>
@@ -67,23 +67,23 @@ export default function Home({ readme }: Props) {
           Meet {awesomeKurds.kurds.length} awesome Kurds.
         </p>
         <div className={styles.CTA}>
-          <BubbleUI options={options} className='myBubbleUI'>
+          <BubbleUI options={options} className="myBubbleUI">
             {_.shuffle(awesomeKurds.kurds).map((k, i) => {
               return (
-                <Avatar key={`dev-${i}`} src={getPhoto(k)} className='child' />
+                <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />
               );
             })}
           </BubbleUI>
           <a
-            href='https://github.com/DevelopersTree/awesome-kurds'
-            rel='noreferrer'
+            href="https://github.com/DevelopersTree/awesome-kurds"
+            rel="noreferrer"
           >
-            <Button type='primary' size='large'>
+            <Button type="primary" size="large">
               Join the list
             </Button>
           </a>
-          <a href='https://github.com/AramRafeq/awesome-kurds' rel='noreferrer'>
-            <Button type='default' size='large'>
+          <a href="https://github.com/AramRafeq/awesome-kurds" rel="noreferrer">
+            <Button type="default" size="large">
               Contribute
             </Button>
           </a>
@@ -93,10 +93,10 @@ export default function Home({ readme }: Props) {
         <div className={styles.search}>
           <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
           <Search
-            placeholder='Search...'
+            placeholder="Search..."
             allowClear
-            enterButton='Search'
-            size='large'
+            enterButton="Search"
+            size="large"
             onSearch={(e) => setSearchTerm(e)}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -117,7 +117,7 @@ export default function Home({ readme }: Props) {
 
       <footer className={styles.footer}>
         Powered by{" "}
-        <a href='https://devs.krd' target='_blank' rel='noreferrer'>
+        <a href="https://devs.krd" target="_blank" rel="noreferrer">
           devs.krd
         </a>
         .
