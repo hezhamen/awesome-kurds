@@ -28,11 +28,17 @@ export class AwesomeKurds {
         if (!this.has(kurd)) {
           this.kurds.push({ ...kurd, topics: [topic] });
         } else {
-          this.kurds[
-            this.kurds.findIndex(
-              (k) => k.name == kurd.name && k.link == kurd.link
-            )
-          ].topics.push(topic);
+          const i = this.kurds.findIndex(
+            (k) => k.name == kurd.name && k.link == kurd.link,
+          );
+
+          this.kurds[i].topics.push(topic);
+
+          for (const tag of kurd.tags) {
+            if (!this.kurds[i].tags.includes(tag)) {
+              this.kurds[i].tags.push(tag);
+            }
+          }
         }
       }
     }
@@ -77,18 +83,16 @@ export class AwesomeKurds {
         link: i[0]
           .split("](")[1] // get the link part
           .slice(0, -1), // remove the closing bracket
-        tags: (typeof i[1] === "string"
-          ? i[1].split(",").map((i) => i.trim())
-          : []
-        ) // if the tags part is not undefined, split it with "," and trim its members, otherwise, just make it an empty array
-          .map((t) => t.toLowerCase()), // convert tags to lowercase to make them case-insensitive
+        tags:
+          (typeof i[1] === "string" ? i[1].split(",").map((i) => i.trim()) : []) // if the tags part is not undefined, split it with "," and trim its members, otherwise, just make it an empty array
+            .map((t) => t.toLowerCase()), // convert tags to lowercase to make them case-insensitive
       }));
   }
 
   getKurdsWithTag(tag: string) {
     return this.kurds.filter((k) =>
       k.tags.includes(
-        tag.toLowerCase() // convert the input tag to lowercase for better match
+        tag.toLowerCase(), // convert the input tag to lowercase for better match
       )
     );
   }
