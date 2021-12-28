@@ -8,7 +8,7 @@ import _ from "lodash";
 import KurdCard from "../components/KurdCard";
 
 // antd
-import { Button } from "antd";
+import { Layout, Button } from "antd";
 
 // styles
 import styles from "../styles/Home.module.css";
@@ -69,34 +69,57 @@ export default function Home({ readme }: Props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className={styles.hero}>
-        <h1 className={styles.title}>Awesome Kurds</h1>
-        <p className={styles.slogan}>
-          Meet {awesomeKurds.kurds.length} awesome Kurds.
-        </p>
-        <div className={styles.CTA}>
-          <BubbleUI options={options} className="myBubbleUI">
-            {shuffledAwesomeKurds.map((k, i) => {
-              return (
-                <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />
-              );
-            })}
-          </BubbleUI>
-          <a
-            href="https://github.com/DevelopersTree/awesome-kurds"
-            rel="noreferrer"
-          >
-            <Button type="primary" size="large">
-              Join the list
-            </Button>
-          </a>
-          <a href="https://github.com/AramRafeq/awesome-kurds" rel="noreferrer">
-            <Button type="default" size="large">
-              Contribute
-            </Button>
-          </a>
-        </div>
-      </section>
+
+      <Layout
+        style={{
+          backgroundColor: "transparent",
+          height: "100vh",
+        }}
+      >
+        <Layout.Content
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h1 className={styles.title}>Awesome Kurds</h1>
+          <p className={styles.slogan}>
+            Meet {awesomeKurds.kurds.length} awesome Kurds.
+          </p>
+          <div className={styles.CTA}>
+            <BubbleUI options={options} className="myBubbleUI">
+              {shuffledAwesomeKurds.map((k, i) => {
+                return (
+                  <Avatar
+                    key={`dev-${i}`}
+                    src={getPhoto(k)}
+                    className="child"
+                  />
+                );
+              })}
+            </BubbleUI>
+            <a
+              href="https://github.com/DevelopersTree/awesome-kurds"
+              rel="noreferrer"
+            >
+              <Button type="primary" size="large">
+                Join the list
+              </Button>
+            </a>
+            <a
+              href="https://github.com/AramRafeq/awesome-kurds"
+              rel="noreferrer"
+            >
+              <Button type="default" size="large">
+                Contribute
+              </Button>
+            </a>
+          </div>
+        </Layout.Content>
+      </Layout>
+
       <main className={styles.main}>
         <div className={styles.search}>
           <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />

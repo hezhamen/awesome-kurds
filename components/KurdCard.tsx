@@ -12,6 +12,7 @@ import {
 import styles from "../styles/Home.module.css";
 import { KurdWithTopics } from "../kurds";
 import { getPhoto } from "../utilities";
+
 const { Meta } = Card;
 
 export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
@@ -53,7 +54,7 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
         ))}
 
         {kurd.tags.length > 0 && (
-          <div className={styles.tags}>
+          <div>
             {kurd.tags.map((t, i) => (
               <Tag key={i} color="blue">
                 {t}
