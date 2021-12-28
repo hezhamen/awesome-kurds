@@ -60,16 +60,17 @@
   margin: 1rem;
 }
 
-.card:hover {
+.card:hover,
+a:focus > .card {
   cursor: pointer;
   box-shadow: -21px 28px 105px -32px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: -21px 28px 105px -32px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -21px 28px 105px -32px rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
+  transition: 0.3s ease-in-out;
 }
 
 .avatar {
-  min-width: 15rem;
+  min-width: 18rem;
   aspect-ratio: 1;
 }
 
@@ -97,6 +98,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 4px;
 }
 
 .footer a {
