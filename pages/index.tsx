@@ -20,8 +20,11 @@ import { Avatar } from "antd";
 //
 import { AwesomeKurds } from "../kurds";
 import { getPhoto } from "../utilities";
+type Props = {
+  readme: string;
+};
 
-export default function Home() {
+export default function Home({ readme }: Props) {
   const [awesomeKurds, setAwesomeKurds] = useState<AwesomeKurds>();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTag, setActiveTag] = useState("");
@@ -41,16 +44,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    (async () => {
-      const readme = await (
-        await fetch(
-          "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
-        )
-      ).text();
-
-      setAwesomeKurds(new AwesomeKurds(readme));
-    })();
-  }, []);
+    setAwesomeKurds(new AwesomeKurds(readme));
+  }, [readme]);
 
   if (typeof awesomeKurds === "undefined") {
     return <Loading />;
@@ -74,7 +69,9 @@ export default function Home() {
         <div className={styles.CTA}>
           <BubbleUI options={options} className="myBubbleUI">
             {_.shuffle(awesomeKurds.kurds).map((k, i) => {
-              return <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />;
+              return (
+                <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />
+              );
             })}
           </BubbleUI>
           <a
@@ -128,3 +125,19 @@ export default function Home() {
     </div>
   );
 }
+
+export const getStaticProps = async () => {
+  const res = await fetch(
+    "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
+  );
+  const readme = await res.text();
+
+  if (!readme) {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: { readme },
+  };
+};
