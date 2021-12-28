@@ -135,6 +135,7 @@ export default function Home() {
         >
           <Row justify="center">
             <Space wrap>
+              <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
               <Search
                 placeholder="Search..."
                 allowClear
@@ -143,7 +144,6 @@ export default function Home() {
                 onSearch={(e) => setSearchTerm(e)}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
             </Space>
           </Row>
         </Header>
