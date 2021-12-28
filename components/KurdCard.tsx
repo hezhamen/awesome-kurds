@@ -1,4 +1,5 @@
-import { Card, Tag, Image } from "antd";
+import { Card, Tag } from "antd";
+import Image from "next/image";
 import {
   BehanceOutlined,
   FacebookOutlined,
@@ -23,7 +24,8 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
             className={styles.avatar}
             src={getPhoto(kurd)}
             alt={kurd.name}
-            preview={false}
+            height={250}
+            width={250}
           />
         }
         actions={[
