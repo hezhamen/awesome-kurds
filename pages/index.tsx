@@ -204,5 +204,8 @@ export const getStaticProps = async () => {
   }
   return {
     props: { readme },
+    revalidate: 3600, // seconds
+    //Next.js will attempt to re-generate the page
+    //when a request comes in atmost every 1 hour
   };
 };
