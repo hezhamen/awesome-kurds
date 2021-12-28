@@ -1,7 +1,6 @@
 // react & next
 import { useEffect, useMemo, useRef, useState } from "react";
 import Head from "next/head";
-import type { GetStaticProps } from "next";
 import BubbleUI from "react-bubble-ui";
 import "react-bubble-ui/dist/index.css";
 import _ from "lodash";
@@ -192,24 +191,18 @@ export default function Home({ readme }: Props) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps = async () => {
   const res = await fetch(
     "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
   );
   const readme = await res.text();
 
-  const revalidate = 60 * 60 * 24; // 24h in seconds
-
   if (!readme) {
     return {
       notFound: true,
-      // if not found, update every hour
-      revalidate: revalidate / 24,
     };
   }
-
   return {
     props: { readme },
-    revalidate,
   };
 };
