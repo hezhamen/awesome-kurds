@@ -11,13 +11,10 @@ import {
 import styles from "../styles/Home.module.css";
 import { KurdWithTopics } from "../kurds";
 import { getPhoto } from "../utilities";
-import { Typography } from "antd";
 
 const { Meta } = Card;
 
 export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
-  const { Link } = Typography;
-
   return (
     <a href={kurd.link} target="_blank" rel="noreferrer">
       <Card
@@ -55,7 +52,7 @@ export default function KurdCard({ kurd }: { kurd: KurdWithTopics }) {
         ))}
 
         {kurd.tags.length > 0 && (
-          <div className={styles.tags}>
+          <div>
             {kurd.tags.map((t, i) => (
               <Tag key={i} color="blue">
                 {t}
