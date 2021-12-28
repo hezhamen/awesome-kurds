@@ -6,18 +6,16 @@ import "react-bubble-ui/dist/index.css";
 import _ from "lodash";
 // components
 import KurdCard from "../components/KurdCard";
-import Footer from "../components/Footer";
 
 // antd
-import { Button, Col, Layout, Row, Space } from "antd";
-import { Typography } from "antd";
+import { Layout, Button } from "antd";
 
 // styles
+import styles from "../styles/Home.module.css";
 import Loading from "../components/Loading";
 import Search from "antd/lib/input/Search";
 import Dropdown from "../components/Dropdown";
 import { Avatar } from "antd";
-import styles from "../styles/Home.module.css";
 
 //
 import { AwesomeKurds } from "../kurds";
@@ -61,11 +59,8 @@ export default function Home({ readme }: Props) {
     return <Loading />;
   }
 
-  const { Header, Content } = Layout;
-  const { Title, Text, Link } = Typography;
-
   return (
-    <>
+    <div className={styles.container}>
       <Head>
         <title>Awesome Kurds</title>
         <meta
@@ -74,13 +69,14 @@ export default function Home({ readme }: Props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Layout
         style={{
           backgroundColor: "transparent",
           height: "100vh",
         }}
       >
-        <Content
+        <Layout.Content
           style={{
             display: "flex",
             flexDirection: "column",
@@ -88,75 +84,55 @@ export default function Home({ readme }: Props) {
             alignItems: "center",
           }}
         >
-          <Title className={styles.title}>Awesome Kurds</Title>
-          <Text className={styles.slogan}>
+          <h1 className={styles.title}>Awesome Kurds</h1>
+          <p className={styles.slogan}>
             Meet {awesomeKurds.kurds.length} awesome Kurds.
-          </Text>
-
-          <BubbleUI options={options} className="myBubbleUI">
-            {shuffledAwesomeKurds.map((k, i) => {
-              return (
-                <Avatar key={`dev-${i}`} src={getPhoto(k)} className="child" />
-              );
-            })}
-          </BubbleUI>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Link
-                href="https://github.com/DevelopersTree/awesome-kurds"
-                rel="noreferrer"
-              >
-                <Button type="primary" size="large">
-                  Join the list
-                </Button>
-              </Link>
-            </Col>
-            <Col span={12}>
-              <Link
-                href="https://github.com/AramRafeq/awesome-kurds"
-                rel="noreferrer"
-              >
-                <Button type="default" size="large">
-                  Contribute
-                </Button>
-              </Link>
-            </Col>
-          </Row>
-        </Content>
+          </p>
+          <div className={styles.CTA}>
+            <BubbleUI options={options} className="myBubbleUI">
+              {shuffledAwesomeKurds.map((k, i) => {
+                return (
+                  <Avatar
+                    key={`dev-${i}`}
+                    src={getPhoto(k)}
+                    className="child"
+                  />
+                );
+              })}
+            </BubbleUI>
+            <a
+              href="https://github.com/DevelopersTree/awesome-kurds"
+              rel="noreferrer"
+            >
+              <Button type="primary" size="large">
+                Join the list
+              </Button>
+            </a>
+            <a
+              href="https://github.com/AramRafeq/awesome-kurds"
+              rel="noreferrer"
+            >
+              <Button type="default" size="large">
+                Contribute
+              </Button>
+            </a>
+          </div>
+        </Layout.Content>
       </Layout>
-      <Layout
-        style={{
-          background: "#fff",
-        }}
-      >
-        <Header
-          style={{
-            lineHeight: "1.5",
-            background: "#fff",
-            marginBottom: "1rem",
-          }}
-        >
-          <Row justify="center">
-            <Space wrap>
-              <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
-              <Search
-                placeholder="Search..."
-                allowClear
-                enterButton="Search"
-                size="large"
-                onSearch={(e) => setSearchTerm(e)}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </Space>
-          </Row>
-        </Header>
-        <Row
-          gutter={16}
-          style={{
-            margin: 'auto',
-            maxWidth: "90%",
-          }}
-        >
+
+      <main className={styles.main}>
+        <div className={styles.search}>
+          <Dropdown setActiveTag={setActiveTag} tags={awesomeKurds.tags} />
+          <Search
+            placeholder="Search..."
+            allowClear
+            enterButton="Search"
+            size="large"
+            onSearch={(e) => setSearchTerm(e)}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className={styles.dealer}>
           {awesomeKurds
             .searchForKurd(searchTerm)
             .filter((k) =>
@@ -165,14 +141,19 @@ export default function Home({ readme }: Props) {
                 : true
             )
             .map((k, i) => (
-              <Col key={k.name} xs={24} sm={12} lg={8} xl={6}>
-                <KurdCard key={i} kurd={k} />
-              </Col>
+              <KurdCard key={i} kurd={k} />
             ))}
-        </Row>
-      </Layout>
-      <Footer />
-    </>
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        Powered by{" "}
+        <a href="https://devs.krd" target="_blank" rel="noreferrer">
+          devs.krd
+        </a>
+        .
+      </footer>
+    </div>
   );
 }
 
