@@ -1,0 +1,62 @@
+@use 'utils/vars'
+@use 'intro'
+@use 'scroll-down'
+@use 'card'
+@use 'footer'
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap")
+
+:root
+  --dark: #222
+  --dark-alt: #333
+  --light: #fff
+  --light-alt: #eee
+
+  @media (prefers-color-scheme:dark)
+    --dark: #fff
+    --dark-alt: #eee
+    --light: #222
+    --light-alt: #333
+
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+  transition-duration: vars.$transition-duration
+  font-family: inherit
+
+  &, &:focus
+    outline: none
+
+  &:not(input)
+    user-select: none
+
+body
+  overflow-x: hidden
+  color: vars.$dark
+  background-color: vars.$light
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+
+a
+  &, &:visited
+    color: vars.$dark
+
+a:not(.card):hover
+    color: vars.$light
+    text-decoration-color: vars.$dark
+    background-color: vars.$dark
+
+.bubble-ui
+  position: absolute
+  width: 100%
+  height: 100%
+  border-radius: 50px
+  top: 0
+  left: 0
+  z-index: -1
+  opacity: 0.2
+
+  .child
+    width: 100%
+    height: 100%
+    border-radius: 50%

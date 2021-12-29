@@ -1,0 +1,73 @@
+@use 'utils/vars'
+
+.search 
+    width: 90%
+    margin-left: auto
+    margin-right: auto
+
+    input
+        display: block
+        width: 100%
+
+        padding: 0.5rem
+        font-size: 1rem
+
+        color: vars.$dark
+        background-color: vars.$light
+
+        border: 1px solid vars.$light-alt
+        border-radius: 10px
+
+        margin-bottom: 20px
+
+.cards
+    display: flex
+    flex-wrap: wrap
+    gap: 20px
+
+    width: 90%
+    margin-left: auto
+    margin-right: auto
+    justify-content: space-evenly
+
+.card
+    min-width: 300px
+    max-width: 300px
+
+    border: 2px solid vars.$light-alt
+    border-radius: 10px
+
+    text-decoration: none
+    padding: 10px
+
+    &:hover
+        background-color: vars.$light-alt
+
+    img // the photo
+        width: 100%
+        border-radius: 10px
+        margin-bottom: 0.5rem
+
+    h1 // the name
+        font-size: 2rem
+        margin-bottom: 0.25rem
+
+    p // the topics
+        opacity: 0.7
+        margin-bottom: 1rem
+
+    div // the tags
+        display: flex
+        flex-wrap: wrap
+        gap: 0.5rem
+        margin-bottom: 1rem
+
+        span // a tag in the tags
+            font-size: 0.8rem
+            padding: 2px 7px
+            border: 1px solid vars.$dark
+            border-radius: 40px
+
+    h1, p, div // the name, the topics and the tags
+        margin-left: 5px
+        margin-right: 5px
