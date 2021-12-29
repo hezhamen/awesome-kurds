@@ -1,5 +1,5 @@
 import { KurdWithTopics } from "../kurds";
-import { getPhoto } from "../utilities";
+import { getPhoto } from "../utils";
 
 export default function Card({ kurd }: { kurd: KurdWithTopics }) {
   return (
