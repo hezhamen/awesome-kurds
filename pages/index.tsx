@@ -1,7 +1,7 @@
+import Head from "next/head";
 import Intro from "../components/Intro";
 import Cards from "../components/Cards";
 import Footer from "../components/Footer";
-
 import { AwesomeKurds } from "../kurds";
 
 type Props = {
@@ -28,6 +28,9 @@ export default function Home({ readme }: Props) {
 
   return (
     <>
+      <Head>
+        <title>Awesome Kurds</title>
+      </Head>
       <Intro kurds={awesomeKurds.kurds} />
       <Cards awesomeKurds={awesomeKurds} />
       <Footer />
