@@ -8,8 +8,8 @@ export default function Card({ kurd }: { kurd: KurdWithTopics }) {
       <h1>{kurd.name}</h1>
       <p>{kurd.topics.join(", ")}</p>
       <div>
-        {kurd.tags.map(t => (
-          <span>{t}</span>
+        {kurd.tags.map((t, i) => (
+          <span key={i}>{t}</span>
         ))}
       </div>
     </a>
