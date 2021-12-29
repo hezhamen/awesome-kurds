@@ -9,14 +9,15 @@ export default function Cards({
 }) {
   const [tagQuery, setTagQuery] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const searchRef = useRef<HTMLInputElement>(null);
 
   const filteredKurds = useMemo(
     () =>
       awesomeKurds
-        .searchForKurd(searchQuery)
+        .searchForKurd(debouncedSearchQuery)
         .filter(k => tagQuery == "all" || k.tags.includes(tagQuery)),
-    [tagQuery, searchQuery]
+    [tagQuery, debouncedSearchQuery]
   );
 
   useEffect(() => {
@@ -32,6 +33,17 @@ export default function Cards({
       document.removeEventListener("keyup", handler);
     };
   }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(
+      () => setDebouncedSearchQuery(searchQuery),
+      250
+    );
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [searchQuery]);
 
   return (
     <>
