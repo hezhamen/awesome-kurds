@@ -1,14 +1,16 @@
 @use 'utils/vars'
 
-.search 
+.search
+    display: flex
+    flex-wrap: wrap
+    gap: 20px
+
     width: 90%
     margin-left: auto
     margin-right: auto
+    margin-bottom: 20px
 
-    input
-        display: block
-        width: 100%
-
+    input, select
         padding: 0.5rem
         font-size: 1rem
 
@@ -18,7 +20,11 @@
         border: 1px solid vars.$light-alt
         border-radius: 10px
 
-        margin-bottom: 20px
+    input
+        flex-grow: 6
+
+    select
+        flex-grow: 1
 
 .cards
     display: flex
