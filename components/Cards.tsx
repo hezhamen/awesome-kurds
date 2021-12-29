@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AwesomeKurds, KurdsWithTopics } from "../kurds";
+import { AwesomeKurds } from "../kurds";
 import Card from "./Card";
 
 export default function Cards({
