@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { AwesomeKurds } from "../kurds";
 import Card from "./Card";
 
@@ -9,6 +9,7 @@ export default function Cards({
 }) {
   const [tagQuery, setTagQuery] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const filteredKurds = useMemo(
     () =>
@@ -17,6 +18,20 @@ export default function Cards({
         .filter(k => tagQuery == "all" || k.tags.includes(tagQuery)),
     [tagQuery, searchQuery]
   );
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "/" && searchRef.current) {
+        searchRef.current.focus();
+      }
+    };
+
+    document.addEventListener("keyup", handler);
+
+    return () => {
+      document.removeEventListener("keyup", handler);
+    };
+  }, []);
 
   return (
     <>
@@ -32,8 +47,10 @@ export default function Cards({
           ))}
         </select>
         <input
+          ref={searchRef}
           type="text"
           placeholder="Search by name..."
+          title="CTRL + /"
           onKeyUp={e => setSearchQuery((e.target as HTMLInputElement).value)}
         />
       </div>
