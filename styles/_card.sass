@@ -1,5 +1,12 @@
 @use 'utils/vars'
 
+.cards, .search input, .search select
+    @media only screen and (max-width: 768px)
+        max-width: 500px
+
+.card, .search input, .search select
+    max-width: 300px
+
 .search
     display: flex
     flex-wrap: wrap
@@ -14,6 +21,7 @@
     input, select
         padding: 0.5rem
         font-size: 1rem
+        flex-grow: 1
 
         color: vars.$dark
         background-color: vars.$light
@@ -21,14 +29,7 @@
         border: 1px solid vars.$light-alt
         border-radius: 10px
 
-    input
-        max-width: 300px
-        flex-grow: 1
-
     select
-        max-width: 300px
-        flex-grow: 1
-
         -webkit-appearance: none
 
 .cards
@@ -42,9 +43,6 @@
     justify-content: center
 
 .card
-    min-width: 300px
-    max-width: 300px
-
     border: 2px solid vars.$light-alt
     border-radius: 10px
 
