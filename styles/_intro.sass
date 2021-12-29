@@ -1,16 +1,20 @@
 @use 'utils/vars'
 
 .intro
+    background: url('/BG.SVG')
+    background-position: 50%
+    background-size: cover
+
     display: flex
     align-items: center
     justify-content: center
     text-align: center
 
-    width: 90%
     height: 100vh
 
     margin-left: auto
     margin-right: auto
+    margin-bottom: 5rem
 
     h1
         font-size: 3rem
@@ -19,4 +23,14 @@
         font-weight: normal
 
     p
-        margin-top: 0.5rem
+        margin-top: 0
+
+.cb-particles
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    overflow: hidden
+    contain: content
+    pointer-events: none

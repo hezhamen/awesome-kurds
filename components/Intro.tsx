@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Particles from "react-tsparticles";
 import { KurdsWithTopics } from "../kurds";
 
 export default function Intro({ kurds }: { kurds: KurdsWithTopics }) {
@@ -11,6 +12,11 @@ export default function Intro({ kurds }: { kurds: KurdsWithTopics }) {
         />
       </Head>
       <div className="intro">
+        <Particles
+          id="tsparticles"
+          url="/particlesjs-config.json"
+          className="cb-particles"
+        />
         <div>
           <h1>Awesome Kurds</h1>
           <h3>Meet {kurds.length}+ awesome Kurds.</h3>
