@@ -19,6 +19,7 @@
     "sass": "^1.45.1"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.1.1",
     "@types/lodash": "^4.14.178",
     "@types/react": "^17.0.38",
     "eslint": "7.32.0",
