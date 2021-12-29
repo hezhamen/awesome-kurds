@@ -4,6 +4,7 @@
     display: flex
     flex-wrap: wrap
     gap: 20px
+    justify-content: center
 
     width: 90%
     margin-left: auto
@@ -21,10 +22,14 @@
         border-radius: 10px
 
     input
-        flex-grow: 6
+        max-width: 300px
+        flex-grow: 1
 
     select
+        max-width: 300px
         flex-grow: 1
+
+        -webkit-appearance: none
 
 .cards
     display: flex

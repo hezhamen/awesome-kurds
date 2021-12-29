@@ -15,7 +15,7 @@ export default function Cards({
       <div className="search">
         <select onChange={e => setTagQuery(e.target.value)}>
           <option key="all" value="all" selected>
-            All
+            All tags
           </option>
           {awesomeKurds.tags.map((t, i) => (
             <option key={i} value={t}>
