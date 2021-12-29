@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AwesomeKurds } from "../kurds";
 import Card from "./Card";
 
@@ -9,6 +9,14 @@ export default function Cards({
 }) {
   const [tagQuery, setTagQuery] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredKurds = useMemo(
+    () =>
+      awesomeKurds
+        .searchForKurd(searchQuery)
+        .filter(k => tagQuery == "all" || k.tags.includes(tagQuery)),
+    [tagQuery, searchQuery]
+  );
 
   return (
     <>
@@ -30,12 +38,11 @@ export default function Cards({
         />
       </div>
       <div className="cards">
-        {awesomeKurds
-          .searchForKurd(searchQuery)
-          .filter(k => tagQuery == "all" || k.tags.includes(tagQuery))
-          .map((k, i) => (
-            <Card key={i} kurd={k} />
-          ))}
+        {filteredKurds.length != 0 ? (
+          filteredKurds.map((k, i) => <Card key={i} kurd={k} />)
+        ) : (
+          <p>No results found.</p>
+        )}
       </div>
     </>
   );
