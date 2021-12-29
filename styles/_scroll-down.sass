@@ -1,0 +1,27 @@
+@use 'utils/vars'
+
+.scroll-down
+    width: 2rem
+    height: 2rem
+
+    border-left: 3px solid vars.$dark
+    border-bottom: 3px solid vars.$dark
+
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 5%
+
+    margin-left: auto
+    margin-right: auto
+
+    opacity: 0
+    transform: rotateZ(-45deg)
+    animation: 1s fade 20
+
+    @keyframes fade
+        50%
+            opacity: 1
+
+        100%
+            opacity: 0

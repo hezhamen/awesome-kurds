@@ -1,26 +1,9 @@
-import React from "react";
-import { Layout } from "antd";
-import { Typography } from "antd";
-
-function Footer() {
-  const { Footer } = Layout;
-  const { Link } = Typography;
-
+export default function Footer() {
   return (
-    <>
-      <Footer
-        style={{
-          textAlign: "center",
-        }}
-      >
-        Powered by{" "}
-        <Link href="https://devs.krd" target="_blank" rel="noreferrer">
-          devs.krd
-        </Link>
-        .
-      </Footer>
-    </>
+    <div className="footer">
+      <p>
+        Powered by <a href="https://devs.krd">devs.krd</a>.
+      </p>
+    </div>
   );
 }
-
-export default Footer;
