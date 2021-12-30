@@ -7,6 +7,7 @@ export default function Cards({
 }: {
   awesomeKurds: AwesomeKurds;
 }) {
+  const [topicQuery, setTopicQuery] = useState("all");
   const [tagQuery, setTagQuery] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
@@ -16,8 +17,9 @@ export default function Cards({
     () =>
       awesomeKurds
         .searchForKurd(debouncedSearchQuery)
+        .filter(k => topicQuery == "all" || k.topics.includes(topicQuery))
         .filter(k => tagQuery == "all" || k.tags.includes(tagQuery)),
-    [tagQuery, debouncedSearchQuery]
+    [topicQuery, tagQuery, debouncedSearchQuery]
   );
 
   useEffect(() => {
@@ -35,10 +37,7 @@ export default function Cards({
   }, []);
 
   useEffect(() => {
-    const timeout = setTimeout(
-      () => setDebouncedSearchQuery(searchQuery),
-      250
-    );
+    const timeout = setTimeout(() => setDebouncedSearchQuery(searchQuery), 250);
 
     return () => {
       clearTimeout(timeout);
@@ -48,6 +47,16 @@ export default function Cards({
   return (
     <>
       <div className="search">
+        <select onChange={e => setTopicQuery(e.target.value)}>
+          <option key="all" value="all" selected>
+            All topics
+          </option>
+          {awesomeKurds.topics.map((t, i) => (
+            <option key={i} value={t}>
+              {t}
+            </option>
+          ))}
+        </select>
         <select onChange={e => setTagQuery(e.target.value)}>
           <option key="all" value="all" selected>
             All tags
