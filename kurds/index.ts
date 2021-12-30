@@ -13,11 +13,11 @@ export interface KurdWithTopics extends Kurd {
 export type KurdsWithTopics = KurdWithTopics[];
 
 export class AwesomeKurds {
+  public topics: string[];
   public tags = new Array<string>();
   public kurds: KurdsWithTopics = [];
 
   private lines: string[];
-  private topics: string[];
 
   constructor(readme: string) {
     this.lines = readme.split("\n");
@@ -74,19 +74,28 @@ export class AwesomeKurds {
       .slice(fromLine, toLine)
       .filter((l) => l != "" && !l.startsWith("## ")) // remove empty lines and the heading
       .map((i) => i.split(": ", 2)) // split to name-link and tags
-      .map((i) => ({
-        name: i[0]
-          .split("](")[0] // get the name part
-          .slice(1) // remove markdown statement (e.g. "-", "*" or "+")
-          .trim() // remove leading whitespace
-          .slice(1), // remove the closing square bracket
-        link: i[0]
-          .split("](")[1] // get the link part
-          .slice(0, -1), // remove the closing bracket
-        tags:
-          (typeof i[1] === "string" ? i[1].split(",").map((i) => i.trim()) : []) // if the tags part is not undefined, split it with "," and trim its members, otherwise, just make it an empty array
-            .map((t) => t.toLowerCase()), // convert tags to lowercase to make them case-insensitive
-      }));
+      .map((i) => {
+        try {
+          return {
+            name: i[0]
+              .split("](")[0] // get the name part
+              .slice(1) // remove markdown statement (e.g. "-", "*" or "+")
+              .trim() // remove leading whitespace
+              .slice(1), // remove the closing square bracket
+            link: i[0]
+              .split("](")[1] // get the link part
+              .slice(0, -1), // remove the closing bracket
+            tags: (typeof i[1] === "string"
+              ? i[1].split(",").map((i) =>
+                i.trim()
+              )
+              : []) // if the tags part is not undefined, split it with "," and trim its members, otherwise, just make it an empty array
+              .map((t) => t.toLowerCase()), // convert tags to lowercase to make them case-insensitive
+          };
+        } catch (err) {
+          return undefined;
+        }
+      }).filter((i) => i);
   }
 
   getKurdsWithTag(tag: string) {
