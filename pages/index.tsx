@@ -4,8 +4,9 @@ import Cards from "../components/Cards";
 import Footer from "../components/Footer";
 import { AwesomeKurds } from "../kurds";
 
-type Props = {
+type HomeProps = {
   readme: string;
+  contributors: string[];
 };
 
 const BUBBLE_UI_OPTIONS = {
@@ -23,8 +24,20 @@ const BUBBLE_UI_OPTIONS = {
   gravitation: 5,
 };
 
-export default function Home({ readme }: Props) {
+export default function Home({ readme, contributors }: HomeProps) {
   const awesomeKurds = new AwesomeKurds(readme);
+
+  function isContributor(link: string) {
+    link = link.toLowerCase();
+
+    for (const contributor of contributors) {
+      if (link.includes(contributor.toLowerCase())) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   return (
     <>
@@ -32,7 +45,7 @@ export default function Home({ readme }: Props) {
         <title>Awesome Kurds</title>
       </Head>
       <Intro kurds={awesomeKurds.kurds} />
-      <Cards awesomeKurds={awesomeKurds} />
+      <Cards awesomeKurds={awesomeKurds} isContributor={isContributor} />
       <Footer />
     </>
   );
@@ -45,8 +58,16 @@ export const getStaticProps = async () => {
     )
   ).text();
 
+  const contributors = (
+    await (
+      await fetch(
+        "https://api.github.com/repos/hezhamen/awesome-kurds/contributors"
+      )
+    ).json()
+  ).map((c: any) => c.login);
+
   return {
-    props: { readme },
+    props: { readme, contributors },
     revalidate: 3600, // seconds
     //Next.js will attempt to re-generate the page
     //when a request comes in atmost every 1 hour
