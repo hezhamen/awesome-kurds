@@ -2,11 +2,12 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { AwesomeKurds } from "../kurds";
 import Card from "./Card";
 
-export default function Cards({
-  awesomeKurds,
-}: {
+interface CardsProps {
   awesomeKurds: AwesomeKurds;
-}) {
+  isContributor: (link: string) => boolean;
+}
+
+export default function Cards({ awesomeKurds, isContributor }: CardsProps) {
   const [topicQuery, setTopicQuery] = useState("all");
   const [tagQuery, setTagQuery] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -77,7 +78,9 @@ export default function Cards({
       </div>
       <div className="cards">
         {filteredKurds.length != 0 ? (
-          filteredKurds.map((k, i) => <Card key={i} kurd={k} />)
+          filteredKurds.map((k, i) => (
+            <Card key={i} kurd={k} contributor={isContributor(k.link)} />
+          ))
         ) : (
           <p>No results found.</p>
         )}
