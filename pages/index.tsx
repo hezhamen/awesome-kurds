@@ -24,6 +24,11 @@ const BUBBLE_UI_OPTIONS = {
   gravitation: 5,
 };
 
+// Type declaration is always encouraged
+let STATIC_PROPS_LINK: string = 'https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md';
+let CONTRIBUTORS_LINK: string = 'https://api.github.com/repos/hezhamen/awesome-kurds/contributors';
+
+
 export default function Home({ readme, contributors }: HomeProps) {
   const awesomeKurds = new AwesomeKurds(readme);
 
@@ -54,22 +59,21 @@ export default function Home({ readme, contributors }: HomeProps) {
 export const getStaticProps = async () => {
   const readme = await (
     await fetch(
-      "https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md"
+       STATIC_PROPS_LINK
     )
   ).text();
 
   const contributors = (
     await (
       await fetch(
-        "https://api.github.com/repos/hezhamen/awesome-kurds/contributors"
+        CONTRIBUTORS_LINK
       )
     ).json()
   ).map((c: any) => c.login);
 
   return {
     props: { readme, contributors },
-    revalidate: 3600, // seconds
-    //Next.js will attempt to re-generate the page
-    //when a request comes in atmost every 1 hour
+    revalidate: 3600, // an hour in seconds (formula: multiply the time value by 3600)
+    // Next.js attempts to re-generate the page every 1 hour
   };
 };
