@@ -24,9 +24,8 @@ const BUBBLE_UI_OPTIONS = {
   gravitation: 5,
 };
 
-// Type declaration is always encouraged
-let STATIC_PROPS_LINK: string = 'https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md';
-let CONTRIBUTORS_LINK: string = 'https://api.github.com/repos/hezhamen/awesome-kurds/contributors';
+const README = 'https://raw.githubusercontent.com/DevelopersTree/awesome-kurds/main/README.md';
+const CONTRIBUTORS = 'https://api.github.com/repos/hezhamen/awesome-kurds/contributors';
 
 
 export default function Home({ readme, contributors }: HomeProps) {
@@ -59,14 +58,14 @@ export default function Home({ readme, contributors }: HomeProps) {
 export const getStaticProps = async () => {
   const readme = await (
     await fetch(
-       STATIC_PROPS_LINK
+       README
     )
   ).text();
 
   const contributors = (
     await (
       await fetch(
-        CONTRIBUTORS_LINK
+        CONTRIBUTORS
       )
     ).json()
   ).map((c: any) => c.login);
