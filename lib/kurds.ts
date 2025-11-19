@@ -21,7 +21,7 @@ export class AwesomeKurds {
 
   constructor(readme: string) {
     this.lines = readme.split("\n");
-    this.topics = Array.from(readme.matchAll(/\n## (.+)\n/g)).map((v) => v[1]); // taken from @hezhamen, and modified
+    this.topics = Array.from(readme.matchAll(/\n## (.+)\n/g)).map(v => v[1]);
 
     for (const topic of this.topics) {
       for (const kurd of this.getKurdsInTopic(topic)) {
@@ -29,7 +29,7 @@ export class AwesomeKurds {
           this.kurds.push({ ...kurd, topics: [topic] });
         } else {
           const i = this.kurds.findIndex(
-            (k) => k.name == kurd.name && k.link == kurd.link,
+            k => k.name == kurd.name && k.link == kurd.link
           );
 
           this.kurds[i].topics.push(topic);
@@ -54,7 +54,7 @@ export class AwesomeKurds {
 
   has(kurd: Kurd) {
     return (
-      this.kurds.filter((k) => k.name == kurd.name && k.link == kurd.link)
+      this.kurds.filter(k => k.name == kurd.name && k.link == kurd.link)
         .length != 0
     );
   }
@@ -72,44 +72,39 @@ export class AwesomeKurds {
 
     return this.lines
       .slice(fromLine, toLine)
-      .filter((l) => l != "" && !l.startsWith("## ")) // remove empty lines and the heading
-      .map((i) => i.split(": ", 2)) // split to name-link and tags
-      .map((i) => {
+      .filter(l => l != "" && !l.startsWith("## "))
+      .map(i => i.split(": ", 2))
+      .map(i => {
         try {
           return {
             name: i[0]
-              .split("](")[0] // get the name part
-              .slice(1) // remove markdown statement (e.g. "-", "*" or "+")
-              .trim() // remove leading whitespace
-              .slice(1), // remove the closing square bracket
-            link: i[0]
-              .split("](")[1] // get the link part
-              .slice(0, -1), // remove the closing bracket
+              .split("](")[0]
+              .slice(1)
+              .trim()
+              .slice(1),
+            link: i[0].split("](")[1].slice(0, -1),
             tags: (typeof i[1] === "string"
-              ? i[1].split(",").map((i) =>
-                i.trim()
-              )
-              : []) // if the tags part is not undefined, split it with "," and trim its members, otherwise, just make it an empty array
-              .map((t) => t.toLowerCase()), // convert tags to lowercase to make them case-insensitive
+              ? i[1].split(",").map(tag => tag.trim())
+              : []
+            ).map(t => t.toLowerCase()),
           };
         } catch (err) {
           return undefined;
         }
-      }).filter((i) => i);
+      })
+      .filter((i): i is Kurd => Boolean(i));
   }
 
   getKurdsWithTag(tag: string) {
-    return this.kurds.filter((k) =>
-      k.tags.includes(
-        tag.toLowerCase(), // convert the input tag to lowercase for better match
-      )
+    return this.kurds.filter(k =>
+      k.tags.includes(tag.toLowerCase())
     );
   }
 
-  // Reading says it all.
   searchForKurd(query: string) {
-    return this.kurds.filter((k) =>
+    return this.kurds.filter(k =>
       k.name.toLowerCase().includes(query.toLowerCase())
     );
   }
 }
+
